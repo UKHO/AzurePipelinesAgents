@@ -24,27 +24,27 @@ resource "azurerm_subnet" "internal" {
 
 }
 
-resource "azurerm_public_ip" "public" {
-    name = "public"
+resource "azurerm_public_ip" "VM01publicip" {
+    name = "${var.PREFIX}-${var.VM01}-ip"
     location = "${azurerm_resource_group.main.location}"  
     resource_group_name = "${azurerm_resource_group.main.name}"   
     allocation_method = "Dynamic" 
   }
 
 
-resource "azurerm_network_interface" "main" {
-  name                = "${var.PREFIX}-nic"
+resource "azurerm_network_interface" "VM01nic" {
+  name                = "${var.PREFIX}-${var.VM01}-nic"
   location            = "${azurerm_resource_group.main.location}"
   resource_group_name = "${azurerm_resource_group.main.name}"
 
   ip_configuration {
-    name                          = "testconfiguration1"
+    name                          = "${var.PREFIX}-${var.VM01}-ipconfig"
     subnet_id                     = "${azurerm_subnet.internal.id}"
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id = "${azurerm_public_ip.public.id}"
   }
 }
-resource "azurerm_virtual_machine" "main" {
+resource "azurerm_virtual_machine" "VM01" {
   name                  = "${var.PREFIX}-${var.VM01}"
   location              = "${azurerm_resource_group.main.location}"
   resource_group_name   = "${azurerm_resource_group.main.name}"
@@ -65,7 +65,7 @@ resource "azurerm_virtual_machine" "main" {
     version   = "latest"
   }
   storage_os_disk {
-    name              = "myosdisk1"
+    name              = "${var.PREFIX}-${var.VM01}-osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -83,7 +83,7 @@ resource "azurerm_virtual_machine" "main" {
     environment = "agent"
   }
 }
-  resource "azurerm_virtual_machine_extension" "main" {
+  resource "azurerm_virtual_machine_extension" "VM01extensions" {
   name                 = "docker"
   location             = "${azurerm_resource_group.main.location}"
   resource_group_name  = "${azurerm_resource_group.main.name}"
