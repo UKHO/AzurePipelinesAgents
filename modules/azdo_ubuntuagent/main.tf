@@ -91,7 +91,7 @@ resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentLinux" {
   type_handler_version = "2.0"
   protected_settings   = <<SETTINGS
     {
-        "fileUris": ["https://gist.githubusercontent.com/elduddz/0f14f1c47e5569272a55cb415306e6f3/raw/cbe797f6f1ef8b6f3f10ade2d455b54efd8ea445/agentinstall.sh"],
+        "fileUris": ["https://raw.githubusercontent.com/UKHO/AzurePipelinesAgents/master/agentinstall.sh"],
         "commandToExecute": "sh agentinstall.sh ${var.VSTS_ACCOUNT} ${var.VSTS_TOKEN} ${var.VSTS_POOL} ${var.PREFIX}-${var.VM}"
     }
 SETTINGS
