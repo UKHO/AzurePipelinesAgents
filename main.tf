@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 0.11.10"
+  required_version = "~> 0.12.1"
 
   #  backend "azurerm" {}
 }
@@ -16,85 +16,53 @@ resource "azurerm_virtual_network" "main" {
   resource_group_name = "${azurerm_resource_group.main.name}"
 }
 
-resource "azurerm_subnet" "internal" {
-  name                 = "internal"
+resource "azurerm_subnet" "main" {
+  name                 = "${var.PREFIX}-internal"
   resource_group_name  = "${azurerm_resource_group.main.name}"
   virtual_network_name = "${azurerm_virtual_network.main.name}"
   address_prefix       = "10.0.2.0/24"
 }
 
-resource "azurerm_public_ip" "VM01" {
-  name                = "${var.PREFIX}-${var.VM01}-ip"
-  location            = "${azurerm_resource_group.main.location}"
-  resource_group_name = "${azurerm_resource_group.main.name}"
-  allocation_method   = "Dynamic"
+module "ubuntupool_agent1" {
+  source                               = "./modules/azdo_ubuntuagent"
+  PREFIX                               = "${var.PREFIX}"
+  VSTS_POOL                            = "${var.VSTS_POOL}"
+  VSTS_ACCOUNT                         = "${var.VSTS_ACCOUNT}"
+  VSTS_TOKEN                           = "${var.VSTS_TOKEN}"
+  ADMIN_USERNAME                       = "${var.ADMIN_USERNAME}"
+  ADMIN_PASSWORD                       = "${var.ADMIN_PASSWORD}"
+  ADMIN_SSHKEYPATH                     = "${var.ADMIN_SSHKEYPATH}"
+  ADMIN_SSHKEYDATA                     = "${var.ADMIN_SSHKEYDATA}"
+  AZURE_CLIENT_ID                      = "${var.AZURE_CLIENT_ID}"
+  AZURE_CLIENT_SECRET                  = "${var.AZURE_CLIENT_SECRET}"
+  AZURE_TENANT_ID                      = "${var.AZURE_TENANT_ID}"
+  AZURE_SUBSCRIPTION_ID                = "${var.AZURE_SUBSCRIPTION_ID}"
+  AZURE_REGION                         = "${var.AZURE_REGION}"
+  AZURERM_RESOURCE_GROUP_MAIN_NAME     = "${azurerm_resource_group.main.name}"
+  AZURERM_RESOURCE_GROUP_MAIN_LOCATION = "${azurerm_resource_group.main.location}"
+  AZURERM_VIRTUAL_NETWORK_MAIN_NAME    = "${azurerm_virtual_network.main.name}"
+  AZURERM_SUBNET_ID                    = "${azurerm_subnet.main.id}"
+  VM                                   = "${var.VM}01"
 }
 
-resource "azurerm_network_interface" "VM01" {
-  name                = "${var.PREFIX}-${var.VM01}-nic"
-  location            = "${azurerm_resource_group.main.location}"
-  resource_group_name = "${azurerm_resource_group.main.name}"
-
-  ip_configuration {
-    name                          = "${var.PREFIX}-${var.VM01}-ipconfig"
-    subnet_id                     = "${azurerm_subnet.internal.id}"
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = "${azurerm_public_ip.VM01.id}"
-  }
-}
-
-resource "azurerm_virtual_machine" "VM01" {
-  name                  = "${var.PREFIX}-${var.VM01}"
-  location              = "${azurerm_resource_group.main.location}"
-  resource_group_name   = "${azurerm_resource_group.main.name}"
-  network_interface_ids = ["${azurerm_network_interface.VM01.id}"]
-  vm_size               = "Standard_DS1_v2"
-
-  # Uncomment this line to delete the OS disk automatically when deleting the VM
-  # delete_os_disk_on_termination = true
-
-
-  # Uncomment this line to delete the data disks automatically when deleting the VM
-  # delete_data_disks_on_termination = true
-
-  storage_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
-  }
-  storage_os_disk {
-    name              = "${var.PREFIX}-${var.VM01}-osdisk"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
-  }
-  os_profile {
-    computer_name  = "${var.VM01}"
-    admin_username = "${var.ADMIN_USERNAME}"
-    admin_password = "${var.ADMIN_PASSWORD}"
-  }
-  os_profile_linux_config {
-    disable_password_authentication = false
-    ssh_keys                        = "${var.ADMIN_SSHKEY}"
-  }
-  tags = {
-    environment = "agent"
-  }
-}
-
-resource "azurerm_virtual_machine_extension" "VM01" {
-  name                 = "docker"
-  location             = "${azurerm_resource_group.main.location}"
-  resource_group_name  = "${azurerm_resource_group.main.name}"
-  virtual_machine_name = "${azurerm_virtual_machine.VM01.name}"
-  publisher            = "Microsoft.Azure.Extensions"
-  type                 = "CustomScript"
-  type_handler_version = "2.0"
-
-  settings = <<SETTINGS
-    {
-        "commandToExecute": "sudo snap install docker"
-    }
-SETTINGS
+module "ubuntupool_agent2" {
+  source                               = "./modules/azdo_ubuntuagent"
+  PREFIX                               = "${var.PREFIX}"
+  VSTS_POOL                            = "${var.VSTS_POOL}"
+  VSTS_ACCOUNT                         = "${var.VSTS_ACCOUNT}"
+  VSTS_TOKEN                           = "${var.VSTS_TOKEN}"
+  ADMIN_USERNAME                       = "${var.ADMIN_USERNAME}"
+  ADMIN_PASSWORD                       = "${var.ADMIN_PASSWORD}"
+  ADMIN_SSHKEYPATH                     = "${var.ADMIN_SSHKEYPATH}"
+  ADMIN_SSHKEYDATA                     = "${var.ADMIN_SSHKEYDATA}"
+  AZURE_CLIENT_ID                      = "${var.AZURE_CLIENT_ID}"
+  AZURE_CLIENT_SECRET                  = "${var.AZURE_CLIENT_SECRET}"
+  AZURE_TENANT_ID                      = "${var.AZURE_TENANT_ID}"
+  AZURE_SUBSCRIPTION_ID                = "${var.AZURE_SUBSCRIPTION_ID}"
+  AZURE_REGION                         = "${var.AZURE_REGION}"
+  AZURERM_RESOURCE_GROUP_MAIN_NAME     = "${azurerm_resource_group.main.name}"
+  AZURERM_RESOURCE_GROUP_MAIN_LOCATION = "${azurerm_resource_group.main.location}"
+  AZURERM_VIRTUAL_NETWORK_MAIN_NAME    = "${azurerm_virtual_network.main.name}"
+  AZURERM_SUBNET_ID                    = "${azurerm_subnet.main.id}"
+  VM                                   = "${var.VM}02"
 }

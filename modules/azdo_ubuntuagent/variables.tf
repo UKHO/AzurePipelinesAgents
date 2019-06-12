@@ -44,3 +44,27 @@ variable "ADMIN_SSHKEYPATH" {
 variable "ADMIN_SSHKEYDATA" {
   type = "string"
 }
+
+variable "AZURERM_RESOURCE_GROUP_MAIN_NAME" {
+  type = "string"
+}
+
+variable "AZURERM_RESOURCE_GROUP_MAIN_LOCATION" {
+  type = "string"
+}
+
+variable "AZURERM_VIRTUAL_NETWORK_MAIN_NAME" {
+  type = "string"
+}
+
+variable "AZURERM_SUBNET_ID" {
+  type = "string"
+}
+
+
+
+
+
+
+
+
