@@ -20,7 +20,7 @@ echo "allow agent run as root"
 export AGENT_ALLOW_RUNASROOT="YES"
 
 echo "configure agent"
-./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool $3 --agent $4 --acceptTeeEula --work _work
+./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool "$3" --agent $4 --acceptTeeEula --work _work
 
 echo "install service"
 ./svc.sh install
