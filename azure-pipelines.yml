@@ -18,8 +18,17 @@ steps:
   displayName: 'terraform install'
 - bash: terraform -v
   displayName: 'terraform version'
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'terraform-ukhoagents.tfvars'
 - bash: terraform init -input=false
   displayName: 'init teraform'
-- bash: terraform plan -out=tfplan -input=false
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: 'terraform-ukhoagents.tfvars'
+    TargetFolder: '$(Build.SourcesDirectory)'
+- bash: mv terraform-ukhoagents.tfvars terraform.tfvars
+- bash: terraform plan -out=tfplan -input=false 
   displayName: 'plan' 
-- bash: terraform apply -input=false tfplan
+- bash: terraform apply -input=false tfplan -auto-approve
