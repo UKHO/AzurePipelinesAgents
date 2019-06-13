@@ -28,6 +28,8 @@ cd /usr/lib/agt
 echo "set permissions on agent directory"
 chmod 755 -R .
 
+cd $4
+
 echo "allow agent run as root"
 export AGENT_ALLOW_RUNASROOT="YES"
 
