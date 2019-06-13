@@ -4,6 +4,9 @@ apt update
 echo "install docker"
 apt install -y docker.io
 
+echo "install maven"
+apt install -y maven
+
 cd /usr/lib
 
 echo "create agent directory"
