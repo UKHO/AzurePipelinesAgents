@@ -10,7 +10,7 @@ apt install -y maven
 cd /usr/lib
 
 echo "create agent directory"
-mkdir agent
+mkdir agt
 
 cd agent
 
@@ -23,7 +23,7 @@ mkdir _work
 echo "download agent"
 curl https://vstsagentpackage.azureedge.net/agent/2.150.3/vsts-agent-linux-x64-2.150.3.tar.gz | tar zx
 
-cd /usr/lib/agent
+cd /usr/lib/agt
 
 echo "set permissions on agent directory"
 chmod 755 -R .
