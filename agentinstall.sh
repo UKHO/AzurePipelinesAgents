@@ -14,10 +14,16 @@ mkdir agent
 
 cd agent
 
+mkdir $4
+
+cd $4
+
 mkdir _work
 
 echo "download agent"
 curl https://vstsagentpackage.azureedge.net/agent/2.150.3/vsts-agent-linux-x64-2.150.3.tar.gz | tar zx
+
+cd /usr/lib/agent
 
 echo "set permissions on agent directory"
 chmod 755 -R .
