@@ -42,7 +42,7 @@ resource "azurerm_virtual_machine" "VM" {
   location              = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name   = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   network_interface_ids = ["${azurerm_network_interface.VM.id}"]
-  vm_size               = "Standard_DS1_v2"
+  vm_size               = "Standard_DS2_v3"
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   # delete_os_disk_on_termination = true
@@ -82,6 +82,7 @@ resource "azurerm_virtual_machine" "VM" {
 }
 
 resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentLinux" {
+  count = 2
   name                 = "${var.PREFIX}-${var.VM}-TeamServicesAgentLinux"
   location             = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name  = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
@@ -92,7 +93,7 @@ resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentLinux" {
   protected_settings   = <<SETTINGS
     {
         "fileUris": ["https://raw.githubusercontent.com/UKHO/AzurePipelinesAgents/master/agentinstall.sh"],
-        "commandToExecute": "sh agentinstall.sh ${var.VSTS_ACCOUNT} ${var.VSTS_TOKEN} \"${var.VSTS_POOL}\" ${var.PREFIX}-${var.VM}"
+        "commandToExecute": "sh agentinstall.sh ${var.VSTS_ACCOUNT} ${var.VSTS_TOKEN} \"${var.VSTS_POOL}\" ${var.PREFIX}-${var.VM}-A${count.index}"
     }
 SETTINGS
 }
