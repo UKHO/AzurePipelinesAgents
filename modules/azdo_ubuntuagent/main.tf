@@ -42,7 +42,7 @@ resource "azurerm_virtual_machine" "VM" {
   location              = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name   = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   network_interface_ids = ["${azurerm_network_interface.VM.id}"]
-  vm_size               = "Standard_DS2_v3"
+  vm_size               = "Standard_D2s_v3"
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
   # delete_os_disk_on_termination = true
@@ -82,7 +82,7 @@ resource "azurerm_virtual_machine" "VM" {
 }
 
 resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentLinux" {
-  count = 2
+  count                = 2
   name                 = "${var.PREFIX}-${var.VM}-TeamServicesAgentLinux"
   location             = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name  = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
