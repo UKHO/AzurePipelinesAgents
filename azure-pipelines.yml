@@ -10,5 +10,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- bash: terraform -v
+  displayName: 'terraform version'
+- bash: terraform init -input=false
+  displayName: 'init teraform'
+- bash: terraform plan -out=tfplan -input=false
+  displayName: 'plan' 
+- bash: terraform apply -input=false tfplan
