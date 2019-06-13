@@ -1,3 +1,6 @@
+echo "update apt"
+apt update
+
 echo "install docker"
 apt install -y docker.io
 
