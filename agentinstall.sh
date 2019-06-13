@@ -12,7 +12,7 @@ cd /usr/lib
 echo "create agent directory"
 mkdir agt
 
-cd agent
+cd agt
 
 mkdir $4
 
