@@ -41,5 +41,5 @@ steps:
   displayName: 'init teraform'
 - bash: terraform plan -out=tfplan -input=false
   displayName: 'plan' 
-- bash: terraform apply "tfplan" -input=false
+- bash: terraform apply -auto-approve
   displayName: 'apply'
