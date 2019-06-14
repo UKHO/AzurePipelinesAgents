@@ -39,6 +39,6 @@ steps:
   displayName: 'creating terraform.tfvars'
 - bash: terraform init -input=false
   displayName: 'init teraform'
-- bash: terraform plan -out=tfplan
+- bash: terraform plan -out=tfplan -input=false
   displayName: 'plan' 
-- bash: terraform apply tfplan -auto-approve
+- bash: terraform apply tfplan -input=false
