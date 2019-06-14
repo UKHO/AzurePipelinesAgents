@@ -22,7 +22,6 @@ steps:
   displayName: 'init teraform'
 - bash: export PREFIX=$(PREFIX)
   displayName: 'Create terraform vars'
-- bash: mv terraform-ukhoagents.tfvars terraform.tfvars
 - bash: terraform plan -out=tfplan -input=false 
   displayName: 'plan' 
 - bash: terraform apply -input=false tfplan -auto-approve
