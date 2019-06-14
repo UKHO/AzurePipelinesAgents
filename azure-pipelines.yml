@@ -20,8 +20,8 @@ steps:
   displayName: 'terraform version'
 - bash: terraform init -input=false
   displayName: 'init teraform'
-- bash: export PREFIX=$(PREFIX)
-  displayName: 'Create terraform vars'
 - bash: terraform plan -out=tfplan -input=false 
+  env:
+    PREFIX: $(PREFIX)
   displayName: 'plan' 
 - bash: terraform apply -input=false tfplan -auto-approve
