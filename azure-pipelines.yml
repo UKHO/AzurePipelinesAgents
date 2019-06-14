@@ -18,9 +18,26 @@ steps:
   displayName: 'terraform install'
 - bash: terraform -v
   displayName: 'terraform version'
+- bash: |
+   cat << EOT >> terraform.tfvars
+   PREFIX = "$(PREFIX)"
+   AZURE_CLIENT_ID = "$(AZURE_CLIENT_ID)"
+   AZURE_SUBSCRIPTION_ID = "$(AZURE_SUBSCRIPTION_ID)"
+   AZURE_CLIENT_SECRET = "$(AZURE_CLIENT_SECRET)"
+   AZURE_TENANT_ID = "$(AZURE_TENANT_ID)"
+   AZURE_REGION = "$(AZURE_REGION)"
+   VSTS_TOKEN = "$(VSTS_TOKEN)"
+   VSTS_POOL = "$(VSTS_POOL)"
+   VSTS_ACCOUNT = "$(VSTS_ACCOUNT)"
+   VM = "$(VM)"
+   ADMIN_USERNAME = "$(ADMIN_USERNAME)"
+   ADMIN_PASSWORD = "$(ADMIN_PASSWORD)"
+   ADMIN_SSHKEYPATH = "$(ADMIN_SSHKEYPATH)"
+   ADMIN_SSHKEYDATA = "$(ADMIN_SSHKEYDATA)"   
+   EOT
+  workingDirectory: '$(Build.SourcesDirectory)'
+  displayName: 'creating terraform.tfvars'
 - bash: terraform init -input=false
-  env:
-    PREFIX: $(PREFIX)
   displayName: 'init teraform'
 - bash: terraform plan -out=tfplan -input=false 
   displayName: 'plan' 
