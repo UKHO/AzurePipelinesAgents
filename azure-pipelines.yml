@@ -18,16 +18,10 @@ steps:
   displayName: 'terraform install'
 - bash: terraform -v
   displayName: 'terraform version'
-- task: DownloadSecureFile@1
-  inputs:
-    secureFile: 'terraform-ukhoagents.tfvars'
 - bash: terraform init -input=false
   displayName: 'init teraform'
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: 'terraform-ukhoagents.tfvars'
-    TargetFolder: '$(Build.SourcesDirectory)'
+- bash: export PREFIX=$(PREFIX)
+  displayName: 'Create terraform vars'
 - bash: mv terraform-ukhoagents.tfvars terraform.tfvars
 - bash: terraform plan -out=tfplan -input=false 
   displayName: 'plan' 
