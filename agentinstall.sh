@@ -12,23 +12,24 @@ cd /usr/lib
 echo "create agent directory"
 mkdir agt
 
-cd agt
+for i in {1..$5}
+do
 
-mkdir $4
+"Setup for Agent $i on $4"
+cd /usr/lib/agt
 
-cd $4
+$dir = $4-A$i
+mkdir $dir
+
+cd $dir
 
 mkdir _work
 
 echo "download agent"
 curl https://vstsagentpackage.azureedge.net/agent/2.150.3/vsts-agent-linux-x64-2.150.3.tar.gz | tar zx
 
-cd /usr/lib/agt
-
 echo "set permissions on agent directory"
 chmod 755 -R .
-
-cd $4
 
 echo "allow agent run as root"
 export AGENT_ALLOW_RUNASROOT="YES"
@@ -36,8 +37,9 @@ export AGENT_ALLOW_RUNASROOT="YES"
 echo "configure agent"
 ./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool "$3" --agent $4 --acceptTeeEula --work _work
 
-echo "install service"
+echo "install service for Agent $i on $4"
 ./svc.sh install
 
-echo "start service"
+echo "start service for Agent $i on $4"
 ./svc.sh start
+done
