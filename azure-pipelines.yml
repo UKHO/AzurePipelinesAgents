@@ -20,7 +20,8 @@ steps:
   displayName: 'terraform version'
 - bash: terraform init
   displayName: 'init teraform'
-- script: terraform plan -out=tfplan -input=false
+- bash: printenv
+- bash: terraform plan -out=tfplan -input=false
   displayName: 'plan' 
 - bash: terraform apply "tfplan"
   displayName: 'apply'
