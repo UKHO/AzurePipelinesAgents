@@ -22,6 +22,12 @@ steps:
   displayName: 'init teraform'
 - bash: printenv
 - bash: terraform plan -out=tfplan -input=false
+  env:
+   TF_VAR_ADMIN_PASSWORD: $(TF_VAR_ADMIN_PASSWORD)
+   TF_VAR_ADMIN_SSHKEYDATA: $(TF_VAR_ADMIN_SSHKEYDATA)
+   TF_VAR_AZURE_CLIENT_ID: $(TF_VAR_AZURE_CLIENT_ID)
+   TF_VAR_AZURE_CLIENT_SECRET: $(TF_VAR_AZURE_CLIENT_SECRET)
+   TF_VAR_VSTS_TOKEN: $(TF_VAR_VSTS_TOKEN)
   displayName: 'plan' 
 - bash: terraform apply "tfplan"
   displayName: 'apply'
