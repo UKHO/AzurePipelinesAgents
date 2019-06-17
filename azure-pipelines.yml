@@ -20,7 +20,6 @@ steps:
   displayName: 'terraform version'
 - bash: terraform init
   displayName: 'init teraform'
-- bash: printenv
 - bash:  
    terraform plan -out=tfplan -input=false
   env:
