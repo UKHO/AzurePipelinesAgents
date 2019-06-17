@@ -20,22 +20,7 @@ steps:
   displayName: 'terraform version'
 - bash: terraform init
   displayName: 'init teraform'
-- script: terraform plan
+- script: terraform plan -out=tfplan -input=false
   displayName: 'plan' 
-  env:
-   PREFIX: $(PREFIX)
-   AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-   AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
-   AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-   AZURE_TENANT_ID: $(AZURE_TENANT_ID)
-   AZURE_REGION: $(AZURE_REGION)
-   VSTS_TOKEN: $(VSTS_TOKEN)
-   VSTS_POOL: $(VSTS_POOL)
-   VSTS_ACCOUNT: $(VSTS_ACCOUNT)
-   VM: $(VM)
-   ADMIN_USERNAME: $(ADMIN_USERNAME)
-   ADMIN_PASSWORD: $(ADMIN_PASSWORD)
-   ADMIN_SSHKEYPATH: $(ADMIN_SSHKEYPATH)
-   ADMIN_SSHKEYDATA: $(ADMIN_SSHKEYDATA)
-- bash: terraform apply -auto-approve
+- bash: terraform apply "tfplan"
   displayName: 'apply'
