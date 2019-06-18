@@ -12,7 +12,7 @@ cd /usr/lib
 echo "create agent directory"
 mkdir agt
 
-for i in {1..$5}
+for i in `seq 1 $5`
 do
 
 "Setup for Agent $i on $4"
@@ -35,7 +35,7 @@ echo "allow agent run as root"
 export AGENT_ALLOW_RUNASROOT="YES"
 
 echo "configure agent"
-./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool "$3" --agent $4 --acceptTeeEula --work _work
+./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool "$3" --agent $dir --acceptTeeEula --work _work
 
 echo "install service for Agent $i on $4"
 ./svc.sh install
