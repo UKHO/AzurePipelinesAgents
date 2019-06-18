@@ -32,7 +32,9 @@ module "ubuntupool_agent00" {
 }
 ```
 
-So long as the VM
+Any  terraform variables can be defined as an environmental, but will need the prefix of `TF_VAR_`
+
+you will also notice in the pipeline.yml that the plan step is being passed some `env:` values, these are secret values that are not available by default so need to be opted in.
 
 ## initialise terraform
 
