@@ -44,3 +44,8 @@ variable "ADMIN_SSHKEYPATH" {
 variable "ADMIN_SSHKEYDATA" {
   type = "string"
 }
+
+variable "SERVERNAMES" {
+  type = "list"
+}
+

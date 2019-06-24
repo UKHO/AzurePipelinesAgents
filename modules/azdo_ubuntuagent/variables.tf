@@ -48,10 +48,6 @@ variable "AZURERM_SUBNET_ID" {
   type = "string"
 }
 
-
-
-
-
-
-
-
+variable "AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID" {
+  type = "string"
+}
