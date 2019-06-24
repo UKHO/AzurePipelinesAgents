@@ -25,8 +25,8 @@ resource "azurerm_subnet" "main" {
 
 resource "azurerm_network_security_group" "main" {
   name                = "${var.PREFIX}-networkrules"
-  location            = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
-  resource_group_name = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
+  location            = "${azurerm_resource_group.main.location}"
+  resource_group_name = "${azurerm_resource_group.main.name}"
 }
 
 
