@@ -23,6 +23,13 @@ resource "azurerm_subnet" "main" {
   address_prefix       = "10.0.2.0/24"
 }
 
+resource "azurerm_network_security_group" "main" {
+  name                = "${var.PREFIX}-networkrules"
+  location            = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
+  resource_group_name = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
+}
+
+
 module "ubuntupool_agent1" {
   source                               = "./modules/azdo_ubuntuagent"
   PREFIX                               = "${var.PREFIX}"
@@ -38,6 +45,7 @@ module "ubuntupool_agent1" {
   AZURERM_RESOURCE_GROUP_MAIN_LOCATION = "${azurerm_resource_group.main.location}"
   AZURERM_VIRTUAL_NETWORK_MAIN_NAME    = "${azurerm_virtual_network.main.name}"
   AZURERM_SUBNET_ID                    = "${azurerm_subnet.main.id}"
+  AZURE_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                   = "${var.VM}01"
 }
 
@@ -56,5 +64,6 @@ module "ubuntupool_agent2" {
   AZURERM_RESOURCE_GROUP_MAIN_LOCATION = "${azurerm_resource_group.main.location}"
   AZURERM_VIRTUAL_NETWORK_MAIN_NAME    = "${azurerm_virtual_network.main.name}"
   AZURERM_SUBNET_ID                    = "${azurerm_subnet.main.id}"
+  AZURE_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                   = "${var.VM}02"
 }
