@@ -29,7 +29,7 @@ resource "azurerm_network_security_group" "main" {
   resource_group_name = "${azurerm_resource_group.main.name}"
 }
 
-module "ubuntupool_agent1" {
+module "pool_agent1" {
   source                                 = "./modules/azdo_ubuntuagent"
   PREFIX                                 = "${var.PREFIX}"
   VSTS_POOL                              = "${var.VSTS_POOL}"
@@ -48,7 +48,7 @@ module "ubuntupool_agent1" {
   VM                                     = "${element(var.SERVERNAMES, 0)}"
 }
 
-module "ubuntupool_agent2" {
+module "pool_agent2" {
   source                                 = "./modules/azdo_ubuntuagent"
   PREFIX                                 = "${var.PREFIX}"
   VSTS_POOL                              = "${var.VSTS_POOL}"
@@ -67,7 +67,7 @@ module "ubuntupool_agent2" {
   VM                                     = "${element(var.SERVERNAMES, 1)}"
 }
 
-module "ubuntupool_agent2" {
+module "pool_agent3" {
   source                                 = "./modules/azdo_ws2019agent"
   PREFIX                                 = "${var.PREFIX}"
   VSTS_POOL                              = "${var.VSTS_POOL}"
