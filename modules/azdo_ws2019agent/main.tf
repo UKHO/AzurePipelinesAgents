@@ -27,7 +27,7 @@ resource "azurerm_virtual_machine" "VM" {
   # delete_data_disks_on_termination = true
 
   storage_image_reference {
-    publisher = "Canonical"
+    publisher = "MicrosoftWindowsServer"
     offer     = "WindowsServer"
     sku       = "2019-DataCenter-Core"
     version   = "latest"
