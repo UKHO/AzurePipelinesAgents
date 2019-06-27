@@ -9,18 +9,15 @@ resource "azurerm_resource_group" "main" {
   location = "${var.AZURE_REGION}"
 }
 
-resource "azurerm_virtual_network" "main" {
-  name                = "${var.PREFIX}-network"
-  address_space       = ["10.0.0.0/16"]
-  location            = "${azurerm_resource_group.main.location}"
-  resource_group_name = "${azurerm_resource_group.main.name}"
+data "azurerm_virtual_network" "main" {
+  name                = "${var.VNET_NAME}"
+  resource_group_name = "${var.VNET_RG}"
 }
 
-resource "azurerm_subnet" "main" {
-  name                 = "${var.PREFIX}-internal"
-  resource_group_name  = "${azurerm_resource_group.main.name}"
-  virtual_network_name = "${azurerm_virtual_network.main.name}"
-  address_prefix       = "10.0.2.0/24"
+data "azurerm_subnet" "main" {
+  name                 = "${var.INTERNAL_NETWORK_NAME}"
+  resource_group_name  = "${var.VNET_RG}"
+  virtual_network_name = "${data.azurerm_virtual_network.main.name}"  
 }
 
 resource "azurerm_network_security_group" "main" {
@@ -42,8 +39,8 @@ module "ubuntupool_agent1" {
   AZURE_REGION                           = "${var.AZURE_REGION}"
   AZURERM_RESOURCE_GROUP_MAIN_NAME       = "${azurerm_resource_group.main.name}"
   AZURERM_RESOURCE_GROUP_MAIN_LOCATION   = "${azurerm_resource_group.main.location}"
-  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${azurerm_virtual_network.main.name}"
-  AZURERM_SUBNET_ID                      = "${azurerm_subnet.main.id}"
+  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.main.name}"
+  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 0)}"
 }
@@ -61,8 +58,8 @@ module "ubuntupool_agent2" {
   AZURE_REGION                           = "${var.AZURE_REGION}"
   AZURERM_RESOURCE_GROUP_MAIN_NAME       = "${azurerm_resource_group.main.name}"
   AZURERM_RESOURCE_GROUP_MAIN_LOCATION   = "${azurerm_resource_group.main.location}"
-  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${azurerm_virtual_network.main.name}"
-  AZURERM_SUBNET_ID                      = "${azurerm_subnet.main.id}"
+  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.main.name}"
+  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 1)}"
 }

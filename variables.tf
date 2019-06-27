@@ -18,6 +18,17 @@ variable "AZURE_REGION" {
 variable "PREFIX" {
   type = "string"
 }
+variable "VNET_NAME" {
+  type = "string"
+}
+variable "VNET_RG" {
+  type = "string"
+}
+variable "INTERNAL_NETWORK_NAME" {
+  type = "string"
+}
+
+
 variable "VSTS_ACCOUNT" {
   type = "string"
 }
