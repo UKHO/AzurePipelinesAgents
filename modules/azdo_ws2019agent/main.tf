@@ -1,5 +1,5 @@
 
-resource "azurerm_network_interface" "VM" {
+resource "azurerm_network_interface" "WSVM" {
   name                      = "${var.PREFIX}-${var.VM}-nic"
   location                  = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name       = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
@@ -12,11 +12,11 @@ resource "azurerm_network_interface" "VM" {
   }
 }
 
-resource "azurerm_virtual_machine" "VM" {
+resource "azurerm_virtual_machine" "WSVM" {
   name                  = "${var.PREFIX}-${var.VM}"
   location              = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name   = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
-  network_interface_ids = ["${azurerm_network_interface.VM.id}"]
+  network_interface_ids = ["${azurerm_network_interface.WSVM.id}"]
   vm_size               = "Standard_D2s_v3"
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
@@ -43,13 +43,9 @@ resource "azurerm_virtual_machine" "VM" {
     admin_username = "${var.ADMIN_USERNAME}"
     admin_password = "${var.ADMIN_PASSWORD}"
   }
-  os_profile_linux_config {
-    disable_password_authentication = true
-    ssh_keys {
-      path     = "${var.ADMIN_SSHKEYPATH}"
-      key_data = "${var.ADMIN_SSHKEYDATA}"
-    }
-  }
+
+  os_profile_windows_config {
+  } 
 
   tags = {
     environment = "agent"
