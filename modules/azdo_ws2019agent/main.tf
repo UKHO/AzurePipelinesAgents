@@ -28,8 +28,8 @@ resource "azurerm_virtual_machine" "WSVM" {
 
   storage_image_reference {
     publisher = "MicrosoftVisualStudio"
-    offer     = "visualstudio2019latest"
-    sku       = "2019-DataCenter-Core"
+    offer     = "visualstudio2019"
+    sku       = "vs-2019-ent-ws2019"
     version   = "latest"
   }
   storage_os_disk {
@@ -45,7 +45,15 @@ resource "azurerm_virtual_machine" "WSVM" {
   }
 
   os_profile_windows_config {
+    provision_vm_agent        = true
+    enable_automatic_upgrades = true
+    additional_unattend_config {
+      pass         = "oobeSystem"
+      component    = "Microsoft-Windows-Shell-Setup"
+      setting_name = "AutoLogon"
+      content      = "<AutoLogon><Password><Value>${var.ADMIN_PASSWORD}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.ADMIN_USERNAME}</Username></AutoLogon>"
   } 
+  }
 
   tags = {
     environment = "agent"
