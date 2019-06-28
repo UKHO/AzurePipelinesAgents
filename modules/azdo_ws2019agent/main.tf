@@ -27,8 +27,8 @@ resource "azurerm_virtual_machine" "WSVM" {
   # delete_data_disks_on_termination = true
 
   storage_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
+    publisher = "MicrosoftVisualStudio"
+    offer     = "visualstudio2019latest"
     sku       = "2019-DataCenter-Core"
     version   = "latest"
   }
