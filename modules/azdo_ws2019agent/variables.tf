@@ -14,6 +14,9 @@ variable "VSTS_TOKEN" {
 variable "VSTS_POOL" {
   type = "string"
 }
+variable "VM" {
+  type = "string"
+}
 variable "ADMIN_USERNAME" {
   type = "string"
 }
