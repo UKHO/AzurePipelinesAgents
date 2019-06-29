@@ -47,15 +47,32 @@ resource "azurerm_virtual_machine" "WSVM" {
   os_profile_windows_config {
     provision_vm_agent        = true
     enable_automatic_upgrades = true
+    
     additional_unattend_config {
       pass         = "oobeSystem"
       component    = "Microsoft-Windows-Shell-Setup"
       setting_name = "AutoLogon"
       content      = "<AutoLogon><Password><Value>${var.ADMIN_PASSWORD}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.ADMIN_USERNAME}</Username></AutoLogon>"
-  } 
+    }
   }
 
   tags = {
     environment = "agent"
   }
+}
+
+resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentWindows" {
+  name                 = "${var.PREFIX}-${var.VM}-TeamServicesAgentWindows"
+  location             = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
+  resource_group_name  = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
+  virtual_machine_name = "${azurerm_virtual_machine.WSVM.name}"
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.9"
+  settings   = <<SETTINGS
+    {
+        "fileUris": ["https://gist.githubusercontent.com/elduddz/7e1cd1c89482b30b9ea96ea57c38cfe9/raw/902dd7cc6a54c7021b4457c79e19fe33db44e319/agentinstall.ps1"],
+        "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File agentinstall.ps1 -account \"${var.VSTS_ACCOUNT}\" -PAT \"${var.VSTS_TOKEN}\" -pool \"${var.VSTS_POOL}\" -ComputerName \"${var.PREFIX}-${var.VM}\" -count 2"
+    }
+SETTINGS
 }
