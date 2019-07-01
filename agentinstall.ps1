@@ -1,5 +1,4 @@
 param(
-$agentVersion = "2.153.2",
 [Parameter(Mandatory)]
 $account,
 [Parameter(Mandatory)]
@@ -10,6 +9,10 @@ $pool,
 $ComputerName,
 $count = 1
 )
+
+$data = Invoke-RestMethod -Uri https://api.github.com/repos/microsoft/azure-pipelines-agent/releases/latest | Select Name
+
+$agentVersion = $data.Name.replace('v','')
 
 $zip = "vsts-agent-win-x64-$agentVersion.zip"
 
