@@ -56,4 +56,6 @@ variable "ADMIN_SSHKEYDATA" {
 variable "SERVERNAMES" {
   type = "list"
 }
-
+variable "BRANCH" {
+  type = "string"
+}

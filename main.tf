@@ -17,7 +17,7 @@ data "azurerm_virtual_network" "main" {
 data "azurerm_subnet" "main" {
   name                 = "${var.INTERNAL_NETWORK_NAME}"
   resource_group_name  = "${var.VNET_RG}"
-  virtual_network_name = "${data.azurerm_virtual_network.main.name}"  
+  virtual_network_name = "${data.azurerm_virtual_network.main.name}"
 }
 
 resource "azurerm_network_security_group" "main" {
@@ -43,6 +43,7 @@ module "pool_agent1-ubuntu" {
   AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 0)}"
+  BRANCH                                 = "${var.BRANCH}"
 }
 
 module "pool_agent2-ubuntu" {
@@ -62,6 +63,7 @@ module "pool_agent2-ubuntu" {
   AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 1)}"
+  BRANCH                                 = "${var.BRANCH}"
 }
 module "pool_agent3-ws2019-vs2019" {
   source                                 = "./modules/azdo_ws2019agent"
@@ -80,6 +82,7 @@ module "pool_agent3-ws2019-vs2019" {
   AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 2)}"
+  BRANCH                                 = "${var.BRANCH}"
 }
 
 module "pool_agent4-ws2019-vs2019" {
@@ -99,5 +102,6 @@ module "pool_agent4-ws2019-vs2019" {
   AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 3)}"
+  BRANCH                                 = "${var.BRANCH}"
 }
 
