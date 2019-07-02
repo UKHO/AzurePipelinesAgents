@@ -38,9 +38,6 @@ variable "VSTS_TOKEN" {
 variable "VSTS_POOL" {
   type = "string"
 }
-variable "VM" {
-  type = "string"
-}
 variable "ADMIN_USERNAME" {
   type = "string"
 }
@@ -59,4 +56,6 @@ variable "ADMIN_SSHKEYDATA" {
 variable "SERVERNAMES" {
   type = "list"
 }
-
+variable "BRANCH" {
+  type = "string"
+}

@@ -18,13 +18,8 @@ resource "azurerm_virtual_machine" "VM" {
   resource_group_name   = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   network_interface_ids = ["${azurerm_network_interface.VM.id}"]
   vm_size               = "Standard_D2s_v3"
-
-  # Uncomment this line to delete the OS disk automatically when deleting the VM
-  # delete_os_disk_on_termination = true
-
-
-  # Uncomment this line to delete the data disks automatically when deleting the VM
-  # delete_data_disks_on_termination = true
+  delete_os_disk_on_termination = true
+  delete_data_disks_on_termination = true
 
   storage_image_reference {
     publisher = "Canonical"
@@ -66,7 +61,7 @@ resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentLinux" {
   type_handler_version = "2.0"
   protected_settings   = <<SETTINGS
     {
-        "fileUris": ["https://raw.githubusercontent.com/UKHO/AzurePipelinesAgents/master/agentinstall.sh"],
+        "fileUris": ["https://raw.githubusercontent.com/UKHO/AzurePipelinesAgents/${var.BRANCH}/agentinstall.sh"],
         "commandToExecute": "sh agentinstall.sh ${var.VSTS_ACCOUNT} ${var.VSTS_TOKEN} \"${var.VSTS_POOL}\" ${var.PREFIX}-${var.VM} 2"
     }
 SETTINGS
