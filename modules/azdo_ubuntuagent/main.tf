@@ -18,13 +18,8 @@ resource "azurerm_virtual_machine" "VM" {
   resource_group_name   = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   network_interface_ids = ["${azurerm_network_interface.VM.id}"]
   vm_size               = "Standard_D2s_v3"
-
-  # Uncomment this line to delete the OS disk automatically when deleting the VM
-  # delete_os_disk_on_termination = true
-
-
-  # Uncomment this line to delete the data disks automatically when deleting the VM
-  # delete_data_disks_on_termination = true
+  delete_os_disk_on_termination = true
+  delete_data_disks_on_termination = true
 
   storage_image_reference {
     publisher = "Canonical"
