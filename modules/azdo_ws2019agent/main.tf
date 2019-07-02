@@ -1,3 +1,8 @@
+data "azurerm_shared_image" "existing" {
+  name = "azure-pipelines-image-vs2019-ws2019"
+  gallery_name = "UKHOSharedImageGallery"
+  resource_group_name = "UKHOSharedImageGalleryRG"
+}
 
 resource "azurerm_network_interface" "WSVM" {
   name                      = "${var.PREFIX}-${var.VM}-nic"
@@ -27,10 +32,7 @@ resource "azurerm_virtual_machine" "WSVM" {
   # delete_data_disks_on_termination = true
 
   storage_image_reference {
-    publisher = "MicrosoftVisualStudio"
-    offer     = "visualstudio2019"
-    sku       = "vs-2019-ent-ws2019"
-    version   = "latest"
+    id = "${data.azurerm_shared_image.existing.id}"
   }
   storage_os_disk {
     name              = "${var.PREFIX}-${var.VM}-osdisk"
