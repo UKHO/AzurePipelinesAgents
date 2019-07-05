@@ -1,7 +1,7 @@
 param(
-    $RESOURCE_GROUP_NAME="ukho-agents-tf-state",
-    $STORAGE_ACCOUNT_NAME="ukhoagentstfstate",
-    $CONTAINER_NAME="ukho-agents-tf-state"
+    $RESOURCE_GROUP_NAME="uks-ukho-tfstate",
+    $STORAGE_ACCOUNT_NAME="uksukhoagentstfstate",
+    $CONTAINER_NAME="uks-ukho-agents-tfstate"
 )
 
 # Create resource group
