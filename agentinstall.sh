@@ -12,6 +12,7 @@ cd /usr/lib
 echo "create agent directory"
 mkdir agt
 
+# Loop for Agents pool
 for i in `seq 1 $5`
 do
 
@@ -44,6 +45,7 @@ echo "start service for Agent $i on $4"
 ./svc.sh start
 done
 
+# Loop for Ubuntu 1804 pool
 for i in `seq 1 $5`
 do
 

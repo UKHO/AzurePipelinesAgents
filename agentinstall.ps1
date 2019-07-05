@@ -63,6 +63,7 @@ Set-Location C:\a
 wget "https://vstsagentpackage.azureedge.net/agent/$agentVersion/$zip" -OutFile ./$zip
 
 
+# Loop for Agents pool
 for ($i = 1; $i -le $count; $i++) {
     Set-Location C:\a
     $agentDir = "A$i"
@@ -75,6 +76,8 @@ for ($i = 1; $i -le $count; $i++) {
     .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Agents" --agent "$agentName" --runAsService
 }
 
+
+# Loop for Windows 2019 pool
 for ($i = 1; $i -le $count; $i++) {
     Set-Location C:\a
     $agentDir = "B$i"
