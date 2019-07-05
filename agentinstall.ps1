@@ -87,5 +87,5 @@ for ($i = 1; $i -le $count; $i++) {
     
     cd $agentDir
         
-    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$pool Windows 2019" --agent "$agentName" --runAsService
+    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Windows 2019" --agent "$agentName" --runAsService
 }
