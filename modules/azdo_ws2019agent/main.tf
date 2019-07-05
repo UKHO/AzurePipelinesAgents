@@ -1,6 +1,7 @@
-data "azurerm_shared_image" "existing" {
-  name = "azure-pipelines-image-vs2019-ws2019"
-  gallery_name = "UKHOSharedImageGallery"
+data "azurerm_shared_image_version" "existing" {
+  name                = "0.153.3"
+  gallery_name        = "UKHOSharedImageGallery"
+  image_name          = "azure-pipelines-image-vs2019-ws2019"
   resource_group_name = "UKHOSharedImageGalleryRG"
 }
 
@@ -18,7 +19,7 @@ resource "azurerm_network_interface" "WSVM" {
 }
 
 resource "azurerm_virtual_machine" "WSVM" {
-  name                  = "${var.PREFIX}-${var.VM}"
+  name                  = "${var.PREFIX}-${var.VM}-ws2019"
   location              = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name   = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   network_interface_ids = ["${azurerm_network_interface.WSVM.id}"]
@@ -27,7 +28,7 @@ resource "azurerm_virtual_machine" "WSVM" {
   delete_data_disks_on_termination = true
 
   storage_image_reference {
-    id = "${data.azurerm_shared_image.existing.id}"
+    id = "${data.azurerm_shared_image_version.existing.id}"
   }
   storage_os_disk {
     name              = "${var.PREFIX}-${var.VM}-osdisk"
@@ -55,6 +56,7 @@ resource "azurerm_virtual_machine" "WSVM" {
 
   tags = {
     environment = "agent"
+    os = "Windows 2019"
   }
 }
 
