@@ -4,7 +4,7 @@ $account,
 [Parameter(Mandatory)]
 $PAT,
 [Parameter(Mandatory)]
-$pool,
+$PoolNamePrefix,
 [Parameter(Mandatory)]
 $ComputerName,
 $count = 1
@@ -72,7 +72,7 @@ for ($i = 1; $i -le $count; $i++) {
     
     cd $agentDir
         
-    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$pool Agents" --agent "$agentName" --runAsService
+    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Agents" --agent "$agentName" --runAsService
 }
 
 for ($i = 1; $i -le $count; $i++) {
