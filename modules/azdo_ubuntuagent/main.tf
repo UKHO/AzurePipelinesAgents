@@ -13,7 +13,7 @@ resource "azurerm_network_interface" "VM" {
 }
 
 resource "azurerm_virtual_machine" "VM" {
-  name                  = "${var.PREFIX}-${var.VM}"
+  name                  = "${var.PREFIX}-${var.VM}-u1804"
   location              = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name   = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   network_interface_ids = ["${azurerm_network_interface.VM.id}"]
@@ -48,6 +48,7 @@ resource "azurerm_virtual_machine" "VM" {
 
   tags = {
     environment = "agent"
+    os = "Ubuntu 1804"
   }
 }
 

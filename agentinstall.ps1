@@ -4,7 +4,7 @@ $account,
 [Parameter(Mandatory)]
 $PAT,
 [Parameter(Mandatory)]
-$pool,
+$PoolNamePrefix,
 [Parameter(Mandatory)]
 $ComputerName,
 $count = 1
@@ -63,15 +63,29 @@ Set-Location C:\a
 wget "https://vstsagentpackage.azureedge.net/agent/$agentVersion/$zip" -OutFile ./$zip
 
 
+# Loop for Agents pool
 for ($i = 1; $i -le $count; $i++) {
+    Set-Location C:\a
     $agentDir = "A$i"
-    $agentName = "$ComputerName-A$i"
+    $agentName = "$ComputerName-ws2019-A$i"
     
     Expand-Archive -Path ./$zip -DestinationPath ./$agentDir
     
     cd $agentDir
         
-    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$pool" --agent $agentName --runAsService
-    
+    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Agents" --agent "$agentName" --runAsService
+}
+
+
+# Loop for Windows 2019 pool
+for ($i = 1; $i -le $count; $i++) {
     Set-Location C:\a
+    $agentDir = "B$i"
+    $agentName = "$ComputerName-ws2019-B$i"
+    
+    Expand-Archive -Path ./$zip -DestinationPath ./$agentDir
+    
+    cd $agentDir
+        
+    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Windows 2019" --agent "$agentName" --runAsService
 }

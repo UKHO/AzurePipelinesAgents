@@ -29,7 +29,7 @@ resource "azurerm_network_security_group" "main" {
 module "pool_agent1-ubuntu" {
   source                                 = "./modules/azdo_ubuntuagent"
   PREFIX                                 = "${var.PREFIX}"
-  VSTS_POOL                              = "${var.VSTS_POOL}"
+  VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
   VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
   VSTS_TOKEN                             = "${var.VSTS_TOKEN}"
   ADMIN_USERNAME                         = "${var.ADMIN_USERNAME}"
@@ -49,7 +49,7 @@ module "pool_agent1-ubuntu" {
 module "pool_agent2-ubuntu" {
   source                                 = "./modules/azdo_ubuntuagent"
   PREFIX                                 = "${var.PREFIX}"
-  VSTS_POOL                              = "${var.VSTS_POOL}"
+  VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
   VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
   VSTS_TOKEN                             = "${var.VSTS_TOKEN}"
   ADMIN_USERNAME                         = "${var.ADMIN_USERNAME}"
@@ -68,7 +68,7 @@ module "pool_agent2-ubuntu" {
 module "pool_agent3-ws2019-vs2019" {
   source                                 = "./modules/azdo_ws2019agent"
   PREFIX                                 = "${var.PREFIX}"
-  VSTS_POOL                              = "${var.VSTS_POOL}"
+  VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
   VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
   VSTS_TOKEN                             = "${var.VSTS_TOKEN}"
   ADMIN_USERNAME                         = "${var.ADMIN_USERNAME}"
@@ -88,7 +88,7 @@ module "pool_agent3-ws2019-vs2019" {
 module "pool_agent4-ws2019-vs2019" {
   source                                 = "./modules/azdo_ws2019agent"
   PREFIX                                 = "${var.PREFIX}"
-  VSTS_POOL                              = "${var.VSTS_POOL}"
+  VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
   VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
   VSTS_TOKEN                             = "${var.VSTS_TOKEN}"
   ADMIN_USERNAME                         = "${var.ADMIN_USERNAME}"

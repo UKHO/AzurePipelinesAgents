@@ -35,7 +35,7 @@ variable "VSTS_ACCOUNT" {
 variable "VSTS_TOKEN" {
   type = "string"
 }
-variable "VSTS_POOL" {
+variable "VSTS_POOL_PREFIX" {
   type = "string"
 }
 variable "ADMIN_USERNAME" {
