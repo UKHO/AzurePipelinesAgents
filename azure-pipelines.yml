@@ -12,26 +12,17 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- bash: |
-   wget https://releases.hashicorp.com/terraform/0.12.2/terraform_0.12.2_linux_amd64.zip -O terraform.zip
-   unzip terraform.zip 
-   sudo mv terraform /usr/local/bin 
-   rm terraform.zip
-  displayName: 'terraform install'
 - bash: terraform -v
   displayName: 'terraform version'
 - bash: terraform init
-  displayName: 'init teraform'
-- bash: |
-   export TF_VAR_PREFIX=$TF_VAR_PREFIX-$(date +%F)
-   terraform plan -out=tfplan -input=false
+  displayName: 'terraform init'
+- task: AzureCLI@1
+  inputs:
+    azureSubscription: 'TPE General Dev'
+    scriptLocation: 'scriptPath'
+    scriptPath: 'tfplan.sh'
   env:
    TF_VAR_ADMIN_PASSWORD: $(TF_VAR_ADMIN_PASSWORD)
    TF_VAR_ADMIN_SSHKEYDATA: $(TF_VAR_ADMIN_SSHKEYDATA)
-   TF_VAR_AZURE_CLIENT_ID: $(TF_VAR_AZURE_CLIENT_ID)
-   TF_VAR_AZURE_CLIENT_SECRET: $(TF_VAR_AZURE_CLIENT_SECRET)
-   TF_VAR_VSTS_TOKEN: $(TF_VAR_VSTS_TOKEN)
    TF_VAR_BRANCH: $(Build.SourceBranchName)   
-  displayName: 'plan' 
-- bash: terraform apply "tfplan"
-  displayName: 'apply'
+  displayName: 'plan'
