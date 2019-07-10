@@ -22,8 +22,8 @@ steps:
     scriptLocation: 'scriptPath'
     scriptPath: 'tfplan.sh'
     arguments: |
-      'tpe-keyvault' 
-      'terraform-ukhogov'
+      tpe-keyvault 
+      terraform-ukhogov
   env:
    TF_VAR_ADMIN_PASSWORD: $(TF_VAR_ADMIN_PASSWORD)
    TF_VAR_ADMIN_SSHKEYDATA: $(TF_VAR_ADMIN_SSHKEYDATA)
