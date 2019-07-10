@@ -28,4 +28,4 @@ steps:
    TF_VAR_ADMIN_PASSWORD: $(TF_VAR_ADMIN_PASSWORD)
    TF_VAR_ADMIN_SSHKEYDATA: $(TF_VAR_ADMIN_SSHKEYDATA)
    TF_VAR_BRANCH: $(Build.SourceBranchName)   
-  displayName: 'plan'
+  displayName: 'plan and apply'
