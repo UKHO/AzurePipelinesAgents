@@ -56,3 +56,8 @@ variable "BRANCH" {
   type = "string"
 }
 
+variable "TAGS" {
+  type = "map"
+}
+
+
