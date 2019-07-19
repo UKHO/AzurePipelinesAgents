@@ -17,7 +17,7 @@ resource "azurerm_virtual_machine" "VM" {
   location              = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name   = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   network_interface_ids = ["${azurerm_network_interface.VM.id}"]
-  vm_size               = "Standard_D2s_v3"
+  vm_size               = "Standard_F8s_v2"
   delete_os_disk_on_termination = true
   delete_data_disks_on_termination = true
 
@@ -31,7 +31,7 @@ resource "azurerm_virtual_machine" "VM" {
     name              = "${var.PREFIX}-${var.VM}-osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
+    managed_disk_type = "Premium_LRS"
     disk_size_gb      = "128"
   }
   os_profile {
