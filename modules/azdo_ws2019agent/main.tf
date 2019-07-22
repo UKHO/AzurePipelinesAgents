@@ -16,6 +16,8 @@ resource "azurerm_network_interface" "WSVM" {
     subnet_id                     = "${var.AZURERM_SUBNET_ID}"
     private_ip_address_allocation = "Dynamic"
   }
+
+  tags = "${var.TAGS}"
 }
 
 resource "azurerm_virtual_machine" "WSVM" {
@@ -54,10 +56,7 @@ resource "azurerm_virtual_machine" "WSVM" {
     }
   }
 
-  tags = {
-    environment = "agent"
-    os = "Windows 2019"
-  }
+  tags = "${var.TAGS}"
 }
 
 resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentWindows" {

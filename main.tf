@@ -7,6 +7,7 @@ terraform {
 resource "azurerm_resource_group" "main" {
   name     = "${var.PREFIX}"
   location = "${var.AZURE_REGION}"
+  tags     = "${var.TAGS}"
 }
 
 data "azurerm_virtual_network" "main" {
@@ -24,6 +25,7 @@ resource "azurerm_network_security_group" "main" {
   name                = "${var.PREFIX}-networksecurity"
   location            = "${azurerm_resource_group.main.location}"
   resource_group_name = "${azurerm_resource_group.main.name}"
+  tags                = "${var.TAGS}"
 }
 
 module "pool_agent1-ubuntu" {
@@ -44,6 +46,7 @@ module "pool_agent1-ubuntu" {
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 0)}"
   BRANCH                                 = "${var.BRANCH}"
+  TAGS                                   = "${var.TAGS}"
 }
 
 module "pool_agent2-ubuntu" {
@@ -64,6 +67,7 @@ module "pool_agent2-ubuntu" {
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 1)}"
   BRANCH                                 = "${var.BRANCH}"
+  TAGS                                   = "${var.TAGS}"
 }
 module "pool_agent3-ws2019-vs2019" {
   source                                 = "./modules/azdo_ws2019agent"
@@ -83,6 +87,7 @@ module "pool_agent3-ws2019-vs2019" {
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 2)}"
   BRANCH                                 = "${var.BRANCH}"
+  TAGS                                   = "${var.TAGS}"
 }
 
 module "pool_agent4-ws2019-vs2019" {
@@ -103,5 +108,6 @@ module "pool_agent4-ws2019-vs2019" {
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
   VM                                     = "${element(var.SERVERNAMES, 3)}"
   BRANCH                                 = "${var.BRANCH}"
+  TAGS                                   = "${var.TAGS}"
 }
 

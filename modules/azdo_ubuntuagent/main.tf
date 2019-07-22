@@ -10,6 +10,8 @@ resource "azurerm_network_interface" "VM" {
     subnet_id                     = "${var.AZURERM_SUBNET_ID}"
     private_ip_address_allocation = "Dynamic"
   }
+
+  tags = "${var.TAGS}"
 }
 
 resource "azurerm_virtual_machine" "VM" {
@@ -47,10 +49,7 @@ resource "azurerm_virtual_machine" "VM" {
     }
   }
 
-  tags = {
-    environment = "agent"
-    os = "Ubuntu 1804"
-  }
+  tags = "${var.TAGS}"
 }
 
 resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentLinux" {
