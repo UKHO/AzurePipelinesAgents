@@ -70,7 +70,7 @@ resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentWindows" {
   settings   = <<SETTINGS
     {
         "fileUris": ["https://raw.githubusercontent.com/UKHO/AzurePipelinesAgents/${var.BRANCH}/agentinstall.ps1"],
-        "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File agentinstall.ps1 -account \"${var.VSTS_ACCOUNT}\" -PAT \"${var.VSTS_TOKEN}\" -PoolNamePrefix \"${var.VSTS_POOL_PREFIX}\" -ComputerName \"${var.PREFIX}-${var.VM}\" -count 2"
+        "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File agentinstall.ps1 -account \"${var.VSTS_ACCOUNT}\" -PAT \"${var.VSTS_TOKEN}\" -PoolNamePrefix \"${var.VSTS_POOL_PREFIX}\" -ComputerName \"${var.PREFIX}-${var.VM}\" -count \"${var.VSTS_AGENT_COUNT}\""
     }
 SETTINGS
 }

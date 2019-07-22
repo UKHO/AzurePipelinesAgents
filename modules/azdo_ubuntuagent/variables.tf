@@ -54,10 +54,11 @@ variable "AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID" {
 variable "BRANCH" {
   type = "string"
 }
-
+variable "VSTS_AGENT_COUNT" {
+  type        = number
+  description = "The number of Azure DevOps agents to install on the VM"
+  default     = 2
+}
 variable "TAGS" {
   type = "map"
 }
-
-
-

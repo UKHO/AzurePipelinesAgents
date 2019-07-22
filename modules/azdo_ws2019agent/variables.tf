@@ -56,8 +56,11 @@ variable "BRANCH" {
   type = "string"
 }
 
+variable "VSTS_AGENT_COUNT" {
+  type        = number
+  description = "The number of Azure DevOps agents to install on the VM"
+  default     = 3
+}
 variable "TAGS" {
   type = "map"
 }
-
-
