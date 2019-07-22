@@ -13,7 +13,6 @@ resource "azurerm_resource_group" "main" {
 data "azurerm_virtual_network" "main" {
   name                = "${var.VNET_NAME}"
   resource_group_name = "${var.VNET_RG}"
-  tags                = "${var.TAGS}"
 }
 
 data "azurerm_subnet" "main" {
