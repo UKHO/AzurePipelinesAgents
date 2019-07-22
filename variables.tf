@@ -46,3 +46,7 @@ variable "SERVERNAMES" {
 variable "BRANCH" {
   type = "string"
 }
+
+variable "TAGS" {
+  type="map"
+}

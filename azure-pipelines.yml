@@ -14,8 +14,6 @@ pool:
 steps:
 - bash: terraform -v
   displayName: 'terraform version'
-- bash: terraform init
-  displayName: 'terraform init'
 - task: AzureCLI@1
   inputs:
     azureSubscription: 'TPE General Dev'
