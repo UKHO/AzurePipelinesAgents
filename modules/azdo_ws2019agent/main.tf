@@ -1,8 +1,8 @@
 data "azurerm_shared_image_version" "existing" {
-  name                = "0.153.3"
-  gallery_name        = "UKHOSharedImageGallery"
+  name                = "0.154.3"
+  gallery_name        = "UkhoSharedImageGallery"
   image_name          = "azure-pipelines-image-vs2019-ws2019"
-  resource_group_name = "UKHOSharedImageGalleryRG"
+  resource_group_name = "AzDOLive-SharedImageGallery"
 }
 
 resource "azurerm_network_interface" "WSVM" {
