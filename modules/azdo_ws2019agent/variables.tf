@@ -51,11 +51,9 @@ variable "AZURERM_SUBNET_ID" {
 variable "AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID" {
   type = "string"
 }
-
 variable "BRANCH" {
   type = "string"
 }
-
 variable "VSTS_AGENT_COUNT" {
   type        = number
   description = "The number of Azure DevOps agents to install on the VM"
