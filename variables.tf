@@ -15,7 +15,6 @@ variable "INTERNAL_NETWORK_NAME" {
   type = "string"
 }
 
-
 variable "VSTS_ACCOUNT" {
   type = "string"
 }
