@@ -10,20 +10,16 @@ pr: none
 
 pool:
   vmImage: 'ubuntu-latest'
-
+container: ant59/terraform-azure-make:latest
 steps:
+- bash: ls -lah
 - bash: terraform -v
   displayName: 'terraform version'
 - task: AzureCLI@1
   inputs:
-    azureSubscription: 'TPE General Dev'
+    azureSubscription: 'AzDo Live'
     scriptLocation: 'scriptPath'
     scriptPath: 'tfplan.sh'
-    arguments: |
-      tpe-keyvault 
-      terraform-ukhogov
   env:
-   TF_VAR_ADMIN_PASSWORD: $(TF_VAR_ADMIN_PASSWORD)
-   TF_VAR_ADMIN_SSHKEYDATA: $(TF_VAR_ADMIN_SSHKEYDATA)
    TF_VAR_BRANCH: $(Build.SourceBranchName)   
-  displayName: 'plan and apply'
+  displayName: 'initialise, plan and apply'

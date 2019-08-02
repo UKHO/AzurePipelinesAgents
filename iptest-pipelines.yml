@@ -1,0 +1,46 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+variables:
+  dockerId: ukhocontainerregistry
+  imageName: nginx
+
+trigger:
+- master
+
+jobs:
+- job:
+  pool:
+    name: UKHO Agents
+  steps:
+  - bash: curl ifconfig.me ; echo
+    displayName: IP
+- job:
+  pool:
+    name: UKHO Agents
+  steps:
+  - bash: curl ifconfig.me ; echo
+    displayName: IP
+- job:
+  pool:
+    name: UKHO Agents
+  steps:
+  - bash: curl ifconfig.me ; echo
+    displayName: IP
+- job:
+  pool:
+    name: UKHO Agents
+  steps:
+  - bash: curl ifconfig.me ; echo
+    displayName: IP
+#- task: Docker@2
+#  displayName: Login to ACR
+#  inputs:
+#    command: login
+#    containerRegistry: ukho-container-registry-connection
+#- script: |
+#    docker pull $(imagename)
+#    docker tag $(imagename) $(dockerId).azurecr.io/$(imageName)
+#    docker push $(dockerId).azurecr.io/$(imageName)
