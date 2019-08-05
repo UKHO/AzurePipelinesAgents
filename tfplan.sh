@@ -20,6 +20,5 @@ echo "Execute Terraform plan"
 make plan
 
 echo "Execute Terraform apply"
-#terraform apply "tfplan"
 make apply
 
