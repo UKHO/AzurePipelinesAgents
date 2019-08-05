@@ -44,6 +44,7 @@ variable "SERVERNAMES" {
 }
 variable "BRANCH" {
   type = "string"
+  default = "master"
 }
 
 variable "TAGS" {
