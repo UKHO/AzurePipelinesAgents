@@ -47,7 +47,7 @@ Some secrets are encrypted and stored in the source code. the secret used is the
 
 - You will also need the access key stored as an environmental add a line to your .bash_profile to `export ARM_ACCESS_KEY="<fromVault>"`
 
-**N.B.** If you do not have access to make, you will still be able to run the standard commmand.
+**N.B.** If you do not have access to make, you will still be able to run the standard `terraform` commmand.
 
 ```shell
 make init
