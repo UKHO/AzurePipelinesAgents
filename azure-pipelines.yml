@@ -12,7 +12,6 @@ pool:
   vmImage: 'ubuntu-latest'
 container: ant59/terraform-azure-make:latest
 steps:
-- bash: ls -lah
 - bash: terraform -v
   displayName: 'terraform version'
 - task: AzureCLI@1
