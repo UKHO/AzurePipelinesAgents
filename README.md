@@ -36,51 +36,67 @@ Any  terraform variables can be defined as an environmental, but will need the p
 
 you will also notice in the pipeline.yml that the plan step is being passed some `env:` values, these are secret values that are not available by default so need to be opted in.
 
-## initialise terraform
+## secrets.auto.tfvars.enc
+
+Some secrets are encrypted and stored in the source code. the secret used is the access key found in the terraform vault for this project. these are decrypted and encypted using the `./secret` script.
+
+## initialise terraform using make
+
+- Install make, for windows, this is easily done with chocolatey `choco install make`
+  - Remember that make runs best from bash.
+
+- You will also need the access key stored as an environmental add a line to your .bash_profile to `export ARM_ACCESS_KEY="<fromVault>"`
+
+**N.B.** If you do not have access to make, you will still be able to run the standard `terraform` commmand.
 
 ```shell
-teraform init
+make init
 ```
 
 ## test what it might do
 
 ```shell
-terraform plan
+make plan
 ```
 
 ## Apply changes
 
 ```shell
-terraform apply
+make apply
 ```
-
-You have to provide `-auto-approve` to get it not to ask you "are you sure?"
 
 ## What is missing
 
-you will need a local `terraform.tfvars` file to map the required variable against.
+you will need some extra variable if you are running local `.tfvars`.
+
+```shell
+BRANCH  = "master"
+PREFIX  = "agents"
+TAGS    = {
+    ENVIRONMENT = "DEV"
+    SERVICE = "AzDO"
+    SERVICE_OWNER = "Bob Martin"
+    RESPONSIBLE_TEAM = "Digital"
+}
+```
 
 an example of the vars needed are listed below:
 
 **NOTE** this terraform is not used to build the VNET, as there are other systems pinning to that. So these are referenced as known data objects. To run this you will need to create a separate RG for you VNET and internal and then provide those details at the run time of this process.
 
+the secrets that are decrypted are for the following variables:
+
 ```shell
-PREFIX                = "agent-prefix"
-VNET_NAME             = "existing-vnetname"
-INTERNAL_NETWORK_NAME = "existing-internalname"
-VNET_RG               = "existing-vnetrg"
-AZURE_CLIENT_ID       = "AZURE_CLIENT_ID"
-AZURE_SUBSCRIPTION_ID = "AZURE_SUBSCRIPTION_ID"
-AZURE_CLIENT_SECRET   = "AZURE_CLIENT_SECRET"
-AZURE_TENANT_ID       = "AZURE_TENANT_ID"
-AZURE_REGION          = "<Region>"
-VSTS_TOKEN            = "xyz"
-VSTS_POOL_PREFIX      = "PoolNamePrefix"
-VSTS_ACCOUNT          = "VSTS_ACCOUNT"
-ADMIN_USERNAME        = "account"
-ADMIN_PASSWORD        = "Password"
-ADMIN_SSHKEYPATH      = "/home/azureagent/.ssh/authorized_keys"
-ADMIN_SSHKEYDATA      = "ssh-rsa xxxxadasdasdasd"
-SERVERNAMES           = ["VM01", "VM02", "VM03", "VM04"]
-BRANCH                = "master"
+ADMIN_PASSWORD        = "<PASSWORD>"
+ADMIN_SSHKEYDATA      = "<SSHRSA>"
+VNET_NAME             = "<VNETNAME>"
+INTERNAL_NETWORK_NAME = "<SUBNETNAME>"
+VNET_RG               = "<RG>"
+AZURE_REGION          = "<REGION>"
+VSTS_POOL_PREFIX      = "TEST"
+VSTS_ACCOUNT          = "<VSTSAccount>"
+VSTS_TOKEN            = "<PATTOKEN>"
+ADMIN_USERNAME        = "agentagents"
+ADMIN_SSHKEYPATH      = "/home/agentagents/.ssh/authorized_keys"
+SERVERNAMES           = ["VM01", "VM02", "VM03", "VM04", "VM05", "VM06"]
 ```
