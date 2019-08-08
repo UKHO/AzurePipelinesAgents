@@ -72,7 +72,6 @@ module "pool_agent2-ubuntu" {
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
   run_date                               = "${var.RUN_DATE}"
-  environment                            = "${var.ENVIRONMENT}"
 }
 
 module "pool_agent3-ws2019-vs2019" {
@@ -96,7 +95,6 @@ module "pool_agent3-ws2019-vs2019" {
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
   run_date                               = "${var.RUN_DATE}"
-  environment                            = "${var.ENVIRONMENT}"
 }
 
 module "pool_agent4-ws2019-vs2019" {
@@ -120,7 +118,6 @@ module "pool_agent4-ws2019-vs2019" {
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
   run_date                               = "${var.RUN_DATE}"
-  environment                            = "${var.ENVIRONMENT}"
 }
 
 
