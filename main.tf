@@ -70,7 +70,7 @@ module "pool_agent2-ubuntu" {
   VM                                     = "${element(var.SERVERNAMES, 1)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
-  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
+  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 1)}"
   run_date                               = "${var.RUN_DATE}"
 }
 
@@ -116,7 +116,7 @@ module "pool_agent4-ws2019-vs2019" {
   VM                                     = "${element(var.SERVERNAMES, 3)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
-  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
+  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 3)}"
   run_date                               = "${var.RUN_DATE}"
 }
 
