@@ -2,7 +2,8 @@
 
 export vaultName="AzDOLive-keyvault"
 export keyPrefix="terraform-azdolive"
-export TF_VAR_PREFIX=$TF_VAR_PREFIX-$(date +%F)
+export TF_VAR_RUN_DATE=$(date +%F)
+export TF_VAR_PREFIX=$TF_VAR_PREFIX-$TF_VAR_RUN_DATE
 
 export ARM_CLIENT_ID=$(az keyvault secret show --vault-name "$vaultName" --name "$keyPrefix-clientid"  --query value -o tsv)
 export ARM_CLIENT_SECRET=$(az keyvault secret show --vault-name "$vaultName" --name "$keyPrefix-clientsecret"  --query value -o tsv)
