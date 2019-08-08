@@ -50,3 +50,11 @@ variable "BRANCH" {
 variable "TAGS" {
   type="map"
 }
+
+variable "RUN_DATE" {
+  type="string"
+}
+
+variable "ENVIRONMENT" {
+  default = "prd"
+}

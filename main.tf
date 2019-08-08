@@ -5,9 +5,9 @@ terraform {
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = "${var.PREFIX}"
+  name     = "${var.PREFIX}-${var.ENVIRONMENT}-${var.RUN_DATE}-rg"
   location = "${var.AZURE_REGION}"
-  tags     = "${var.TAGS}"
+  tags     = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.RUN_DATE}" })}"
 }
 
 data "azurerm_virtual_network" "main" {
@@ -22,10 +22,10 @@ data "azurerm_subnet" "main" {
 }
 
 resource "azurerm_network_security_group" "main" {
-  name                = "${var.PREFIX}-networksecurity"
+  name                = "${var.PREFIX}-${var.ENVIRONMENT}-networksecurity"
   location            = "${azurerm_resource_group.main.location}"
   resource_group_name = "${azurerm_resource_group.main.name}"
-  tags                = "${var.TAGS}"
+  tags                = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.RUN_DATE}" })}"
 }
 
 module "pool_agent1-ubuntu" {
@@ -47,6 +47,8 @@ module "pool_agent1-ubuntu" {
   VM                                     = "${element(var.SERVERNAMES, 0)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
+  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 0)}"
+  run_date                               = "${var.RUN_DATE}"
 }
 
 module "pool_agent2-ubuntu" {
@@ -68,7 +70,11 @@ module "pool_agent2-ubuntu" {
   VM                                     = "${element(var.SERVERNAMES, 1)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
+  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
+  run_date                               = "${var.RUN_DATE}"
+  environment                            = "${var.ENVIRONMENT}"
 }
+
 module "pool_agent3-ws2019-vs2019" {
   source                                 = "./modules/azdo_ws2019agent"
   PREFIX                                 = "${var.PREFIX}"
@@ -88,6 +94,9 @@ module "pool_agent3-ws2019-vs2019" {
   VM                                     = "${element(var.SERVERNAMES, 2)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
+  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
+  run_date                               = "${var.RUN_DATE}"
+  environment                            = "${var.ENVIRONMENT}"
 }
 
 module "pool_agent4-ws2019-vs2019" {
@@ -109,5 +118,9 @@ module "pool_agent4-ws2019-vs2019" {
   VM                                     = "${element(var.SERVERNAMES, 3)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
+  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
+  run_date                               = "${var.RUN_DATE}"
+  environment                            = "${var.ENVIRONMENT}"
 }
+
 

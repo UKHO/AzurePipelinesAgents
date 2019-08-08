@@ -67,7 +67,7 @@ wget "https://vstsagentpackage.azureedge.net/agent/$agentVersion/$zip" -OutFile 
 for ($i = 1; $i -le $count; $i++) {
     Set-Location C:\a
     $agentDir = "A$i"
-    $agentName = "$ComputerName-ws2019-A$i"
+    $agentName = "$ComputerName-A$i"
     
     Expand-Archive -Path ./$zip -DestinationPath ./$agentDir
     
@@ -81,7 +81,7 @@ for ($i = 1; $i -le $count; $i++) {
 for ($i = 1; $i -le $count; $i++) {
     Set-Location C:\a
     $agentDir = "B$i"
-    $agentName = "$ComputerName-ws2019-B$i"
+    $agentName = "$ComputerName-B$i"
     
     Expand-Archive -Path ./$zip -DestinationPath ./$agentDir
     

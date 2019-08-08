@@ -23,7 +23,7 @@ do
 "Setup for Agent $i on $4"
 cd /usr/lib/agt
 
-dir=$4-u1804-A$i
+dir=$4-A$i
 mkdir $dir
 
 cd $dir
@@ -56,7 +56,7 @@ do
 "Setup for Agent $i on $4"
 cd /usr/lib/agt
 
-dir=$4-u1804-B$i
+dir=$4-B$i
 mkdir $dir
 
 cd $dir
