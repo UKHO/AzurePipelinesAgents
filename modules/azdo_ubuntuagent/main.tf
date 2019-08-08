@@ -1,6 +1,6 @@
 
 resource "azurerm_network_interface" "VM" {
-  name                      = "${var.PREFIX}-${var.VM}-nic"
+  name                      = "${var.vm_name}-nic"
   location                  = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name       = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   network_security_group_id = "${var.AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID}"
@@ -10,17 +10,16 @@ resource "azurerm_network_interface" "VM" {
     subnet_id                     = "${var.AZURERM_SUBNET_ID}"
     private_ip_address_allocation = "Dynamic"
   }
-
-  tags = "${var.TAGS}"
+  tags = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.run_date}" })}"
 }
 
 resource "azurerm_virtual_machine" "VM" {
-  name                  = "${var.PREFIX}-${var.VM}-u1804"
-  location              = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
-  resource_group_name   = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
-  network_interface_ids = ["${azurerm_network_interface.VM.id}"]
-  vm_size               = "Standard_F8s"
-  delete_os_disk_on_termination = true
+  name                             = "${var.vm_name}"
+  location                         = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
+  resource_group_name              = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
+  network_interface_ids            = ["${azurerm_network_interface.VM.id}"]
+  vm_size                          = "Standard_F8s"
+  delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
 
   storage_image_reference {
@@ -30,14 +29,14 @@ resource "azurerm_virtual_machine" "VM" {
     version   = "latest"
   }
   storage_os_disk {
-    name              = "${var.PREFIX}-${var.VM}-osdisk"
+    name              = "${var.vm_name}-osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Premium_LRS"
     disk_size_gb      = "128"
   }
   os_profile {
-    computer_name  = "${var.VM}"
+    computer_name  = "${var.vm_name}"
     admin_username = "${var.ADMIN_USERNAME}"
     admin_password = "${var.ADMIN_PASSWORD}"
   }
@@ -48,12 +47,11 @@ resource "azurerm_virtual_machine" "VM" {
       key_data = "${var.ADMIN_SSHKEYDATA}"
     }
   }
-
-  tags = "${var.TAGS}"
+  tags = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "OS" = "Ubuntu 1804", "RUN_DATE" = "${var.run_date}" })}"
 }
 
 resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentLinux" {
-  name                 = "${var.PREFIX}-${var.VM}-TeamServicesAgentLinux"
+  name                 = "${var.vm_name}-TeamServicesAgentLinux"
   location             = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name  = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   virtual_machine_name = "${azurerm_virtual_machine.VM.name}"
@@ -63,7 +61,7 @@ resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentLinux" {
   protected_settings   = <<SETTINGS
     {
         "fileUris": ["https://raw.githubusercontent.com/UKHO/AzurePipelinesAgents/${var.BRANCH}/agentinstall.sh"],
-        "commandToExecute": "sh agentinstall.sh ${var.VSTS_ACCOUNT} ${var.VSTS_TOKEN} \"${var.VSTS_POOL_PREFIX}\" ${var.PREFIX}-${var.VM} ${var.VSTS_AGENT_COUNT}"
+        "commandToExecute": "sh agentinstall.sh ${var.VSTS_ACCOUNT} ${var.VSTS_TOKEN} \"${var.VSTS_POOL_PREFIX}\" ${var.vm_name}-${var.run_date} ${var.VSTS_AGENT_COUNT}"
     }
 SETTINGS
 }

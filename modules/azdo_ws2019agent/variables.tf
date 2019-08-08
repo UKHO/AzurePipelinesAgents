@@ -62,3 +62,12 @@ variable "VSTS_AGENT_COUNT" {
 variable "TAGS" {
   type = "map"
 }
+
+variable "vm_name" {
+}
+
+variable "run_date" {
+  
+}
+
+
