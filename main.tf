@@ -5,7 +5,7 @@ terraform {
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = "${var.PREFIX}-${var.ENVIRONMENT}-${var.RUN_DATE}-rg"
+  name     = "ms-${var.VSTS_ACCOUNT}-agents-${var.ENVIRONMENT}-${var.RUN_DATE}-rg"
   location = "${var.AZURE_REGION}"
   tags     = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.RUN_DATE}" })}"
 }
@@ -22,7 +22,7 @@ data "azurerm_subnet" "main" {
 }
 
 resource "azurerm_network_security_group" "main" {
-  name                = "${var.PREFIX}-${var.ENVIRONMENT}-networksecurity"
+  name                = "ms-${var.VSTS_ACCOUNT}-agents-${var.ENVIRONMENT}-networksecurity"
   location            = "${azurerm_resource_group.main.location}"
   resource_group_name = "${azurerm_resource_group.main.name}"
   tags                = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.RUN_DATE}" })}"
@@ -30,7 +30,6 @@ resource "azurerm_network_security_group" "main" {
 
 module "pool_agent1-ubuntu" {
   source                                 = "./modules/azdo_ubuntuagent"
-  PREFIX                                 = "${var.PREFIX}"
   VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
   VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
   VSTS_TOKEN                             = "${var.VSTS_TOKEN}"
@@ -53,7 +52,6 @@ module "pool_agent1-ubuntu" {
 
 module "pool_agent2-ubuntu" {
   source                                 = "./modules/azdo_ubuntuagent"
-  PREFIX                                 = "${var.PREFIX}"
   VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
   VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
   VSTS_TOKEN                             = "${var.VSTS_TOKEN}"
@@ -76,7 +74,6 @@ module "pool_agent2-ubuntu" {
 
 module "pool_agent3-ws2019-vs2019" {
   source                                 = "./modules/azdo_ws2019agent"
-  PREFIX                                 = "${var.PREFIX}"
   VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
   VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
   VSTS_TOKEN                             = "${var.VSTS_TOKEN}"
@@ -99,7 +96,6 @@ module "pool_agent3-ws2019-vs2019" {
 
 module "pool_agent4-ws2019-vs2019" {
   source                                 = "./modules/azdo_ws2019agent"
-  PREFIX                                 = "${var.PREFIX}"
   VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
   VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
   VSTS_TOKEN                             = "${var.VSTS_TOKEN}"

@@ -2,9 +2,6 @@ variable "AZURE_REGION" {
   type = "string"
 }
 
-variable "PREFIX" {
-  type = "string"
-}
 variable "VSTS_ACCOUNT" {
   type = "string"
 }
