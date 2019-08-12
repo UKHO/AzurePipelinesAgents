@@ -5,7 +5,7 @@ terraform {
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = "ms-${var.VSTS_ACCOUNT}-agents-${var.ENVIRONMENT}-${var.RUN_DATE}-rg"
+  name     = "m-${var.VSTS_ACCOUNT}-agents-${var.ENVIRONMENT}-${var.RUN_DATE}-rg"
   location = "${var.AZURE_REGION}"
   tags     = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.RUN_DATE}" })}"
 }
@@ -22,7 +22,7 @@ data "azurerm_subnet" "main" {
 }
 
 resource "azurerm_network_security_group" "main" {
-  name                = "ms-${var.VSTS_ACCOUNT}-agents-${var.ENVIRONMENT}-networksecurity"
+  name                = "m-${var.VSTS_ACCOUNT}-agents-${var.ENVIRONMENT}-networksecurity"
   location            = "${azurerm_resource_group.main.location}"
   resource_group_name = "${azurerm_resource_group.main.name}"
   tags                = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.RUN_DATE}" })}"
@@ -46,7 +46,7 @@ module "pool_agent1-ubuntu" {
   VM                                     = "${element(var.SERVERNAMES, 0)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
-  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 0)}"
+  vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 0)}"
   run_date                               = "${var.RUN_DATE}"
 }
 
@@ -68,7 +68,7 @@ module "pool_agent2-ubuntu" {
   VM                                     = "${element(var.SERVERNAMES, 1)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
-  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 1)}"
+  vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}AGT01"
   run_date                               = "${var.RUN_DATE}"
 }
 
@@ -90,7 +90,7 @@ module "pool_agent3-ws2019-vs2019" {
   VM                                     = "${element(var.SERVERNAMES, 2)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
-  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
+  vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
   run_date                               = "${var.RUN_DATE}"
 }
 
