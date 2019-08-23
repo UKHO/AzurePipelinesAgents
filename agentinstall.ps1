@@ -7,6 +7,8 @@ $PAT,
 $PoolNamePrefix,
 [Parameter(Mandatory)]
 $ComputerName,
+$AdminAccount,
+$AdminPassword,
 $count = 1
 )
 
@@ -73,7 +75,7 @@ for ($i = 1; $i -le $count; $i++) {
     
     cd $agentDir
         
-    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Agents" --agent "$agentName" --runAsService --windowsLogonAccount "LocalSystem"
+    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Agents" --agent "$agentName" --runAsService --windowsLogonAccount "$AdminAccount" --windowsLogonPassword "$AdminPassword"
 }
 
 
@@ -87,5 +89,5 @@ for ($i = 1; $i -le $count; $i++) {
     
     cd $agentDir
         
-    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Windows 2019" --agent "$agentName" --runAsService --windowsLogonAccount "LocalSystem"
+    .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Windows 2019" --agent "$agentName" --runAsService --windowsLogonAccount "$AdminAccount" --windowsLogonPassword "$AdminPassword"
 }
