@@ -68,7 +68,7 @@ module "pool_agent2-ubuntu" {
   VM                                     = "${element(var.SERVERNAMES, 1)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
-  vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}AGT01"
+  vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 1)}"
   run_date                               = "${var.RUN_DATE}"
 }
 
