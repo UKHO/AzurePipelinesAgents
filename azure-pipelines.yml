@@ -22,3 +22,10 @@ steps:
   env:
    TF_VAR_BRANCH: $(Build.SourceBranchName)   
   displayName: 'initialise, plan and apply'
+- task: AzureCLI@1
+  inputs:
+    azureSubscription: 'AzDo Live'
+    scriptLocation: inlineScript
+    inlineScript: |
+      export TF_VAR_RUN_DATE=$(date +%F)
+      make restart $TF_VAR_VSTS_ACCOUNT $TF_VAR_ENVIRONMENT $TF_VAR_RUN_DATE
