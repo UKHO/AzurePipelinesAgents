@@ -1,6 +1,6 @@
 #! /bin/bash
 
-export vaultName="AzDOLive-keyvault"
+export vaultName="AzDOLive-KV"
 export keyPrefix="TERRAFORM"
 export TF_VAR_RUN_DATE=$(date +%F)
 
