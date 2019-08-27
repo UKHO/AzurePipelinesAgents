@@ -20,7 +20,9 @@ steps:
     scriptLocation: 'scriptPath'
     scriptPath: 'tfplan.sh'
   env:
-   TF_VAR_BRANCH: $(Build.SourceBranchName)   
+   TF_VAR_BRANCH: $(Build.SourceBranchName)  
+   TF_VAR_VSTS_ACCOUNT: $(TF_VAR_VSTS_ACCOUNT)
+   TF_VAR_VSTS_TOKEN: $(TF_VAR_VSTS_TOKEN)
   displayName: 'initialise, plan and apply'
 - task: AzureCLI@1
   displayName: restart agents
