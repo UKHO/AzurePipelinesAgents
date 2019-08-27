@@ -1,7 +1,7 @@
 #! /bin/bash
 
 export vaultName="AzDOLive-keyvault"
-export keyPrefix="terraform-azdolive"
+export keyPrefix="TERRAFORM"
 export TF_VAR_RUN_DATE=$(date +%F)
 
 export ARM_CLIENT_ID=$(az keyvault secret show --vault-name "$vaultName" --name "$keyPrefix-clientid"  --query value -o tsv)
