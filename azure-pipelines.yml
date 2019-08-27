@@ -23,6 +23,7 @@ steps:
    TF_VAR_BRANCH: $(Build.SourceBranchName)   
   displayName: 'initialise, plan and apply'
 - task: AzureCLI@1
+  displayName: restart agents
   inputs:
     azureSubscription: 'AzDo Live'
     scriptLocation: inlineScript
