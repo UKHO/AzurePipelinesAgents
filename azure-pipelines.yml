@@ -32,3 +32,7 @@ steps:
     inlineScript: |
       export TF_VAR_RUN_DATE=$(date +%F)
       make restart $TF_VAR_VSTS_ACCOUNT $TF_VAR_ENVIRONMENT $TF_VAR_RUN_DATE
+  env:
+   TF_VAR_BRANCH: $(Build.SourceBranchName)  
+   TF_VAR_VSTS_ACCOUNT: $(TF_VAR_VSTS_ACCOUNT)
+   TF_VAR_VSTS_TOKEN: $(TF_VAR_VSTS_TOKEN)
