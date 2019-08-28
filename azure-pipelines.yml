@@ -31,7 +31,12 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
       export TF_VAR_RUN_DATE=$(date +%F)
-      make restart $TF_VAR_VSTS_ACCOUNT $TF_VAR_ENVIRONMENT $TF_VAR_RUN_DATE
+      RG="m-$TF_VAR_VSTS_ACCOUNT-Agents-$TF_VAR_ENVIRONMENT-$TF_VAR_RUN_DATE-rg"
+      LIST=$(az vm list -g $RG --query "[].name" -o tsv)
+      for OUTPUT in $LIST 
+      do
+        az vm restart -g $RG -n "$OUTPUT"
+      done
   env:
    TF_VAR_BRANCH: $(Build.SourceBranchName)  
    TF_VAR_VSTS_ACCOUNT: $(TF_VAR_VSTS_ACCOUNT)
