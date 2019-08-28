@@ -1,6 +1,5 @@
 DECRYPT=     ./secret -d
 ENCRYPT=     ./secret
-RESTART=     ./restart.sh
 PLAN=        tfplan
 PLAINTEXT=   secrets.auto.tfvars
 ENCRYPTED=   ${PLAINTEXT}.enc
@@ -41,10 +40,3 @@ init:
 apply: ${PLAN}
 	@-echo "Applying ${PLAN} ..."
 	@${TF} apply -input=false -auto-approve tfplan
-
-restart:
-	@-echo "account: ${account}"
-	@-echo "environment: ${environment}"
-	@-echo "date: ${date}"
-	
-	${RESTART} ${account} ${environment} ${date}
