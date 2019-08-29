@@ -12,7 +12,6 @@ export ARM_ACCESS_KEY=$(az keyvault secret show --vault-name "$vaultName" --name
 
 # ./secret is a bash script, but does not get execution rights when recieved by the build agent.
 chmod 755 ./secret
-chmod 755 ./restart.sh
 chmod 755 ./tfplan.sh
 
 
