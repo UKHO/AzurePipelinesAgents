@@ -9,9 +9,9 @@ trigger:
 pr: none
 
 variables:
-  TF_VAR_PROJECTIDENTITY: AzDoLive  
-  TF_VAR_LOCATION: UK South
-  TF_VAR_VSTS_POOL_PREFIX: UKHO
+  ProjectIdentity: AzDoLive  
+  AzureRegion: UK South
+  PoolPrefix: UKHO
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -32,6 +32,11 @@ steps:
    TF_VAR_ADMIN_USERNAME: $(TF_VAR_ADMIN_USERNAME)
    TF_VAR_ADMIN_PASSWORD: $(TF_VAR_ADMIN_PASSWORD)
    TF_VAR_ADMIN_SSHKEYPATH: $(TF_VAR_ADMIN_SSHKEYPATH)
+   TF_VAR_ADMIN_SSHKEYDATA: $(TF_VAR_ADMIN_SSHKEYDATA)
+   TF_VAR_ProjectIdentity: $(ProjectIdentity)
+   TF_VAR_AZURE_REGION: $(AzureRegion)
+   TF_VAR_VSTS_POOL_PREFIX: $(PoolPrefix)
+
   displayName: 'initialise, plan and apply'
 #- task: AzureCLI@1
 #  displayName: restart agents
