@@ -20,7 +20,7 @@ data "azurerm_virtual_network" "data" {
 }
 
 data "azurerm_subnet" "data" {
-  name                 = "${var.ProjectIdentity}-subnet"
+  name                 = "azdoagents-prd-subnet"
   resource_group_name  = "${data.azurerm_resource_group.data.name}"
   virtual_network_name = "${data.azurerm_virtual_network.data.name}"
 }
