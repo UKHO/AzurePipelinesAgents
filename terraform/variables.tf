@@ -31,6 +31,12 @@ variable "ADMIN_SSHKEYDATA" {
 variable "SERVERNAMES" {
   type = "list"
 }
+
+variable "VM_SIZE" {
+  type = "string"
+}
+
+
 variable "BRANCH" {
   type = "string"
   default = "master"
