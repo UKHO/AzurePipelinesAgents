@@ -1,7 +1,7 @@
 param(
     [Parameter(Mandatory)]
     $Numbers,
-    $VmNamePattern
+    $ResourceGroupNamePattern
 )
 
 $numberArray = $Numbers.Split(' ')
@@ -30,7 +30,7 @@ catch {
 }
 
 #Get all ARM resources from all resource groups
-$ResourceGroups = Get-AzureRmResourceGroup | Where ResourceGroupName -like $VmNamePattern
+$ResourceGroups = Get-AzureRmResourceGroup | Where ResourceGroupName -like $ResourceGroupNamePattern
 
 foreach ($ResourceGroup in $ResourceGroups)
 {    
