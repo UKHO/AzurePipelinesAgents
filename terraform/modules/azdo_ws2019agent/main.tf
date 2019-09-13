@@ -24,7 +24,7 @@ resource "azurerm_virtual_machine" "WSVM" {
   location                         = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
   resource_group_name              = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
   network_interface_ids            = ["${azurerm_network_interface.WSVM.id}"]
-  vm_size                          = "Standard_D2s_v3"
+  vm_size                          = "${var.vm_size}"
   delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
 
