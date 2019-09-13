@@ -4,7 +4,7 @@ param(
     $VmNamePattern
 )
 
-$numberArray = $numbers.Split(' ')
+$numberArray = $Numbers.Split(' ')
 $connectionName = "AzureRunAsConnection"
 try
 {
