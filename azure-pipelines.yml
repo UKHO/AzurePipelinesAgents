@@ -9,9 +9,13 @@ trigger:
 pr: none
 
 variables:
-  ProjectIdentity: AzDoLive  
-  AzureRegion: UK South
-  PoolPrefix: UKHO
+  - group: agents-variables
+  - name: ProjectIdentity
+    value: AzDoLive  
+  - name: AzureRegion
+    value: UK South
+  - name: PoolPrefix
+    value: UKHO
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -28,33 +32,20 @@ steps:
       terraform plan -out=tfplan -input=false
       terraform apply "tfplan"
   env:
-   TF_VAR_BRANCH: $(Build.SourceBranchName)  
-   TF_VAR_VSTS_ACCOUNT: $(TF_VAR_VSTS_ACCOUNT)
-   TF_VAR_VSTS_TOKEN: $(TF_VAR_VSTS_TOKEN)
-   TF_VAR_SERVERNAMES: $(TF_VAR_SERVERNAMES)
-   TF_VAR_ADMIN_USERNAME: $(TF_VAR_ADMIN_USERNAME)
-   TF_VAR_ADMIN_PASSWORD: $(TF_VAR_ADMIN_PASSWORD)
-   TF_VAR_ADMIN_SSHKEYPATH: $(TF_VAR_ADMIN_SSHKEYPATH)
-   TF_VAR_ADMIN_SSHKEYDATA: $(TF_VAR_ADMIN_SSHKEYDATA)
-   TF_VAR_ProjectIdentity: $(ProjectIdentity)
-   TF_VAR_AZURE_REGION: $(AzureRegion)
-   TF_VAR_VSTS_POOL_PREFIX: $(PoolPrefix)
-
+    ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
+    ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
+    ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
+    ARM_CLIENT_ID: $(TERRAFORM-CLIENT-ID)
+    ARM_CLIENT_SECRET: $(TERRAFORM-CLIENT-SECRET)
+    TF_VAR_BRANCH: $(Build.SourceBranchName)  
+    TF_VAR_VSTS_ACCOUNT: $(VSTS-Account)
+    TF_VAR_VSTS_TOKEN: $(VSTS-Token)
+    TF_VAR_SERVERNAMES: $(TF_VAR_SERVERNAMES)
+    TF_VAR_ADMIN_USERNAME: $(VSTS-Admin-User)
+    TF_VAR_ADMIN_PASSWORD: $(VSTS-Admin-Password)
+    TF_VAR_ADMIN_SSHKEYPATH: $(VSTS-SskKeyPath)
+    TF_VAR_ADMIN_SSHKEYDATA: $(VSTS-SshKeyData)
+    TF_VAR_ProjectIdentity: $(ProjectIdentity)
+    TF_VAR_AZURE_REGION: $(AzureRegion)
+    TF_VAR_VSTS_POOL_PREFIX: $(PoolPrefix)
   displayName: 'initialise, plan and apply'
-#- task: AzureCLI@1
-#  displayName: restart agents
-#  inputs:
-#    azureSubscription: 'AzDo Live'
-#    scriptLocation: inlineScript
-#    inlineScript: |
-#      export TF_VAR_RUN_DATE=$(date +%F)
-#      RG="m-$TF_VAR_VSTS_ACCOUNT-Agents-$TF_VAR_ENVIRONMENT-$TF_VAR_RUN_DATE-rg"
-#      LIST=$(az vm list -g $RG --query "[].name" -o tsv)
-#      for OUTPUT in $LIST 
-#      do
-#        az vm restart -g $RG -n "$OUTPUT"
-#      done
-#  env:
-#   TF_VAR_BRANCH: $(Build.SourceBranchName)  
-#   TF_VAR_VSTS_ACCOUNT: $(TF_VAR_VSTS_ACCOUNT)
-#   TF_VAR_VSTS_TOKEN: $(TF_VAR_VSTS_TOKEN)
