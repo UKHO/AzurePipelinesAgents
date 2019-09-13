@@ -17,13 +17,16 @@ pool:
   vmImage: 'ubuntu-latest'
 container: ant59/terraform-azure-make:latest
 steps:
-- bash: terraform -v
-  displayName: 'terraform version'
 - task: AzureCLI@1
   inputs:
     azureSubscription: 'AzDo Live'
-    scriptLocation: 'scriptPath'
-    scriptPath: 'tfplan.sh'
+    scriptLocation: inlineScript
+    inlineScript: |
+      cd terraform
+      
+      terraform init
+      terraform plan -out=tfplan -input=false
+      terraform apply "tfplan"
   env:
    TF_VAR_BRANCH: $(Build.SourceBranchName)  
    TF_VAR_VSTS_ACCOUNT: $(TF_VAR_VSTS_ACCOUNT)
