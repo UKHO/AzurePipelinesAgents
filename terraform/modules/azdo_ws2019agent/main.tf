@@ -68,7 +68,7 @@ resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentWindows" {
   type_handler_version = "1.9"
   protected_settings   = <<SETTINGS
     {
-        "fileUris": ["https://raw.githubusercontent.com/UKHO/AzurePipelinesAgents/${var.BRANCH}/agentinstall.ps1"],
+        "fileUris": ["https://raw.githubusercontent.com/UKHO/AzurePipelinesAgents/${var.BRANCH}/scripts/agentinstall.ps1"],
         "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File agentinstall.ps1 -account \"${var.VSTS_ACCOUNT}\" -PAT \"${var.VSTS_TOKEN}\" -PoolNamePrefix \"${var.VSTS_POOL_PREFIX}\" -ComputerName \"${var.vm_name}-${var.run_date}\" -AdminAccount \"${var.ADMIN_USERNAME}\" -AdminPassword \"${var.ADMIN_PASSWORD}\" -count \"${var.VSTS_AGENT_COUNT}\""
     }
 SETTINGS
