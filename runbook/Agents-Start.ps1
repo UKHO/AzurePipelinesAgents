@@ -35,7 +35,7 @@ $ResourceGroups = Get-AzureRmResourceGroup | Where ResourceGroupName -like $Reso
 foreach ($ResourceGroup in $ResourceGroups)
 {    
     $ResourceGroupName = $ResourceGroup.ResourceGroupName
-    Write-Output ("Showing resources in resource group " + $ResourceGroupName)
+    Write-Output ("Get resources in resource group " + $ResourceGroupName)
     $Resources = Get-AzureRmVM -ResourceGroupName $ResourceGroupName 
     
     ForEach ($vm in $Resources)
