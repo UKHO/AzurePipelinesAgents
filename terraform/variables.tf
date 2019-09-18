@@ -2,8 +2,6 @@ variable "AZURE_REGION" {
   type = "string"
 }
 
-variable "ProjectIdentity" {}
-
 variable "VSTS_ACCOUNT" {
   type = "string"
 }

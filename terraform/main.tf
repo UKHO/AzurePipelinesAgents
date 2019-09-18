@@ -11,11 +11,11 @@ resource "azurerm_resource_group" "main" {
 }
 
 data "azurerm_resource_group" "data" {
-  name = "${var.ProjectIdentity}-RG"
+  name = "AzDoLive-RG"
 }
 
 data "azurerm_virtual_network" "data" {
-  name                = "${var.ProjectIdentity}-vnet"
+  name                = "AzDoLive-vnet"
   resource_group_name = "${data.azurerm_resource_group.data.name}"
 }
 
@@ -26,7 +26,7 @@ data "azurerm_subnet" "data" {
 }
 
 data "azurerm_network_security_group" "data" {
-  name                = "${var.ProjectIdentity}-nsg"
+  name                = "AzDoLive-nsg"
   resource_group_name = "${data.azurerm_resource_group.data.name}"
 }
 

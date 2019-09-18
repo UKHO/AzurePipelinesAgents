@@ -10,8 +10,6 @@ pr: none
 
 variables:
   - group: agents-variables
-  - name: ProjectIdentity
-    value: AzDoLive  
   - name: AzureRegion
     value: UK South
   - name: PoolPrefix
