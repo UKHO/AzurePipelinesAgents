@@ -49,7 +49,7 @@ module "pool_agent1-ubuntu" {
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 0)}"
-  vm_size                                = ${var.VM_SIZE}
+  vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
 
@@ -72,7 +72,7 @@ module "pool_agent2-ubuntu" {
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 1)}"
-  vm_size                                = ${var.VM_SIZE}
+  vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
 module "pool_agent3-ws2019-vs2019" {
@@ -94,7 +94,7 @@ module "pool_agent3-ws2019-vs2019" {
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
-  vm_size                                = ${var.VM_SIZE}
+  vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
 
@@ -117,6 +117,6 @@ module "pool_agent4-ws2019-vs2019" {
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 3)}"
-  vm_size                                = ${var.VM_SIZE}
+  vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
