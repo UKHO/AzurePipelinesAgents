@@ -26,6 +26,8 @@ steps:
     azureSubscription: 'AzDo Live'
     scriptLocation: inlineScript
     inlineScript: |
+      export TF_VAR_RUN_DATE=$(date +%F)
+      
       cd terraform
       terraform init
       terraform plan -out=tfplan -input=false
