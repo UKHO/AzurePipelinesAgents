@@ -28,6 +28,7 @@ steps:
     azureSubscription: 'AzDo Live'
     scriptLocation: inlineScript
     inlineScript: |
+      cd terraform
       terraform init
       terraform plan -out=tfplan -input=false
       terraform apply "tfplan"
