@@ -44,7 +44,6 @@ steps:
     TF_VAR_ADMIN_PASSWORD: $(VSTS-Admin-Password)
     TF_VAR_ADMIN_SSHKEYPATH: $(VSTS-SskKeyPath)
     TF_VAR_ADMIN_SSHKEYDATA: $(VSTS-SshKeyData)
-    TF_VAR_ProjectIdentity: $(ProjectIdentity)
     TF_VAR_AZURE_REGION: $(AzureRegion)
     TF_VAR_VSTS_POOL_PREFIX: $(PoolPrefix)
   displayName: 'initialise, plan and apply'
