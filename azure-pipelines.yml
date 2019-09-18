@@ -8,6 +8,15 @@ trigger:
 
 pr: none
 
+variables:
+  - group: agents-variables
+  - name: ProjectIdentity
+    value: AzDoLive  
+  - name: AzureRegion
+    value: UK South
+  - name: PoolPrefix
+    value: UKHO
+
 pool:
   vmImage: 'ubuntu-latest'
 container: ant59/terraform-azure-make:latest
@@ -17,8 +26,26 @@ steps:
 - task: AzureCLI@1
   inputs:
     azureSubscription: 'AzDo Live'
-    scriptLocation: 'scriptPath'
-    scriptPath: 'tfplan.sh'
+    scriptLocation: inlineScript
+    inlineScript: |
+      terraform init
+      terraform plan -out=tfplan -input=false
+      terraform apply "tfplan"
   env:
-   TF_VAR_BRANCH: $(Build.SourceBranchName)   
+    ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
+    ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
+    ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
+    ARM_CLIENT_ID: $(TERRAFORM-CLIENT-ID)
+    ARM_CLIENT_SECRET: $(TERRAFORM-CLIENT-SECRET)
+    TF_VAR_BRANCH: $(Build.SourceBranchName)   
+    TF_VAR_VSTS_ACCOUNT: $(VSTS-Account)
+    TF_VAR_VSTS_TOKEN: $(VSTS-Token)
+    TF_VAR_SERVERNAMES: $(TF_VAR_SERVERNAMES)
+    TF_VAR_ADMIN_USERNAME: $(VSTS-Admin-User)
+    TF_VAR_ADMIN_PASSWORD: $(VSTS-Admin-Password)
+    TF_VAR_ADMIN_SSHKEYPATH: $(VSTS-SskKeyPath)
+    TF_VAR_ADMIN_SSHKEYDATA: $(VSTS-SshKeyData)
+    TF_VAR_ProjectIdentity: $(ProjectIdentity)
+    TF_VAR_AZURE_REGION: $(AzureRegion)
+    TF_VAR_VSTS_POOL_PREFIX: $(PoolPrefix)
   displayName: 'initialise, plan and apply'
