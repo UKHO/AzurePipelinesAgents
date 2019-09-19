@@ -33,6 +33,10 @@ steps:
       export TF_VAR_VSTS_TOKEN="${!TOKEN}"
       export TF_VAR_RUN_DATE=$(date +%F)
 
+      echo "$TF_VAR_VSTS_ACCOUNT"
+      echo "$TF_VAR_ENVIRONMENT"
+      echo "$TF_VAR_RUN_DATE"
+
       cd terraform
       terraform init
       terraform plan -out=tfplan -input=false
