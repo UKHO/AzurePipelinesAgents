@@ -3,15 +3,13 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
- - master
+trigger: 
+  - master
 
 pr: none
 
 variables:
   - group: agents-variables
-  - name: ProjectIdentity
-    value: AzDoLive  
   - name: AzureRegion
     value: UK South
   - name: PoolPrefix
@@ -28,6 +26,17 @@ steps:
     azureSubscription: 'AzDo Live'
     scriptLocation: inlineScript
     inlineScript: |
+      ACCOUNT="VSTS_ACCOUNT_$TF_VAR_ENVIRONMENT"
+      TOKEN="VSTS_TOKEN_$TF_VAR_ENVIRONMENT"
+
+      export TF_VAR_VSTS_ACCOUNT="${!ACCOUNT}"
+      export TF_VAR_VSTS_TOKEN="${!TOKEN}"
+      export TF_VAR_RUN_DATE=$(date +%F)
+
+      echo "$TF_VAR_ENVIRONMENT"
+      echo "$TF_VAR_RUN_DATE"
+
+      cd terraform
       terraform init
       terraform plan -out=tfplan -input=false
       terraform apply "tfplan"
@@ -38,14 +47,15 @@ steps:
     ARM_CLIENT_ID: $(TERRAFORM-CLIENT-ID)
     ARM_CLIENT_SECRET: $(TERRAFORM-CLIENT-SECRET)
     TF_VAR_BRANCH: $(Build.SourceBranchName)   
-    TF_VAR_VSTS_ACCOUNT: $(VSTS-Account)
-    TF_VAR_VSTS_TOKEN: $(VSTS-Token)
+    VSTS_ACCOUNT_DEV: $(VSTS-Account-DEV)
+    VSTS_ACCOUNT_PRD: $(VSTS-Account-PRD)
+    VSTS_TOKEN_DEV: $(VSTS-Token-DEV)
+    VSTS_TOKEN_PRD: $(VSTS-Token-PRD)
     TF_VAR_SERVERNAMES: $(TF_VAR_SERVERNAMES)
     TF_VAR_ADMIN_USERNAME: $(VSTS-Admin-User)
     TF_VAR_ADMIN_PASSWORD: $(VSTS-Admin-Password)
-    TF_VAR_ADMIN_SSHKEYPATH: $(VSTS-SskKeyPath)
+    TF_VAR_ADMIN_SSHKEYPATH: $(VSTS-SshKeyPath)
     TF_VAR_ADMIN_SSHKEYDATA: $(VSTS-SshKeyData)
-    TF_VAR_ProjectIdentity: $(ProjectIdentity)
     TF_VAR_AZURE_REGION: $(AzureRegion)
     TF_VAR_VSTS_POOL_PREFIX: $(PoolPrefix)
   displayName: 'initialise, plan and apply'

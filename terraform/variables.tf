@@ -2,16 +2,6 @@ variable "AZURE_REGION" {
   type = "string"
 }
 
-variable "VNET_NAME" {
-  type = "string"
-}
-variable "VNET_RG" {
-  type = "string"
-}
-variable "INTERNAL_NETWORK_NAME" {
-  type = "string"
-}
-
 variable "VSTS_ACCOUNT" {
   type = "string"
 }
@@ -39,6 +29,12 @@ variable "ADMIN_SSHKEYDATA" {
 variable "SERVERNAMES" {
   type = "list"
 }
+
+variable "VM_SIZE" {
+  type = "string"
+}
+
+
 variable "BRANCH" {
   type = "string"
   default = "master"

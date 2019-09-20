@@ -63,6 +63,11 @@ variable "TAGS" {
 variable "vm_name" {
 }
 
+variable "vm_size" {
+  
+}
+
+
 variable "run_date" {
   
 }

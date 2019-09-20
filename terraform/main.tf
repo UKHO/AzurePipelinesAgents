@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 0.12.1"
+  required_version = "~> 0.12.5"
 
   #  backend "azurerm" {}
 }
@@ -10,22 +10,24 @@ resource "azurerm_resource_group" "main" {
   tags     = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.RUN_DATE}" })}"
 }
 
-data "azurerm_virtual_network" "main" {
-  name                = "${var.VNET_NAME}"
-  resource_group_name = "${var.VNET_RG}"
+data "azurerm_resource_group" "data" {
+  name = "AzDoLive-RG"
 }
 
-data "azurerm_subnet" "main" {
-  name                 = "${var.INTERNAL_NETWORK_NAME}"
-  resource_group_name  = "${var.VNET_RG}"
-  virtual_network_name = "${data.azurerm_virtual_network.main.name}"
+data "azurerm_virtual_network" "data" {
+  name                = "AzDoLive-vnet"
+  resource_group_name = "${data.azurerm_resource_group.data.name}"
 }
 
-resource "azurerm_network_security_group" "main" {
-  name                = "m-${var.VSTS_ACCOUNT}-agents-${var.ENVIRONMENT}-networksecurity"
-  location            = "${azurerm_resource_group.main.location}"
-  resource_group_name = "${azurerm_resource_group.main.name}"
-  tags                = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.RUN_DATE}" })}"
+data "azurerm_subnet" "data" {
+  name                 = "azdoagents-prd-subnet"
+  resource_group_name  = "${data.azurerm_resource_group.data.name}"
+  virtual_network_name = "${data.azurerm_virtual_network.data.name}"
+}
+
+data "azurerm_network_security_group" "data" {
+  name                = "AzDoLive-nsg"
+  resource_group_name = "${data.azurerm_resource_group.data.name}"
 }
 
 module "pool_agent1-ubuntu" {
@@ -40,13 +42,14 @@ module "pool_agent1-ubuntu" {
   AZURE_REGION                           = "${var.AZURE_REGION}"
   AZURERM_RESOURCE_GROUP_MAIN_NAME       = "${azurerm_resource_group.main.name}"
   AZURERM_RESOURCE_GROUP_MAIN_LOCATION   = "${azurerm_resource_group.main.location}"
-  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.main.name}"
-  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
-  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
+  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.data.name}"
+  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.data.id}"
+  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${data.azurerm_network_security_group.data.id}"
   VM                                     = "${element(var.SERVERNAMES, 0)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 0)}"
+  vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
 
@@ -62,16 +65,16 @@ module "pool_agent2-ubuntu" {
   AZURE_REGION                           = "${var.AZURE_REGION}"
   AZURERM_RESOURCE_GROUP_MAIN_NAME       = "${azurerm_resource_group.main.name}"
   AZURERM_RESOURCE_GROUP_MAIN_LOCATION   = "${azurerm_resource_group.main.location}"
-  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.main.name}"
-  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
-  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
+  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.data.name}"
+  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.data.id}"
+  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${data.azurerm_network_security_group.data.id}"
   VM                                     = "${element(var.SERVERNAMES, 1)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 1)}"
+  vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
-
 module "pool_agent3-ws2019-vs2019" {
   source                                 = "./modules/azdo_ws2019agent"
   VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
@@ -84,13 +87,14 @@ module "pool_agent3-ws2019-vs2019" {
   AZURE_REGION                           = "${var.AZURE_REGION}"
   AZURERM_RESOURCE_GROUP_MAIN_NAME       = "${azurerm_resource_group.main.name}"
   AZURERM_RESOURCE_GROUP_MAIN_LOCATION   = "${azurerm_resource_group.main.location}"
-  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.main.name}"
-  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
-  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
-  VM                                     = "${element(var.SERVERNAMES, 2)}"
+  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.data.name}"
+  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.data.id}"
+  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${data.azurerm_network_security_group.data.id}"
+  VM                                     = "${element(var.SERVERNAMES, 2)}"  
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
+  vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
 
@@ -106,14 +110,13 @@ module "pool_agent4-ws2019-vs2019" {
   AZURE_REGION                           = "${var.AZURE_REGION}"
   AZURERM_RESOURCE_GROUP_MAIN_NAME       = "${azurerm_resource_group.main.name}"
   AZURERM_RESOURCE_GROUP_MAIN_LOCATION   = "${azurerm_resource_group.main.location}"
-  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.main.name}"
-  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.main.id}"
-  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${azurerm_network_security_group.main.id}"
+  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.data.name}"
+  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.data.id}"
+  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${data.azurerm_network_security_group.data.id}"
   VM                                     = "${element(var.SERVERNAMES, 3)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
-  vm_name                                = "MSAGT${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 3)}"
+  vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 3)}"
+  vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
-
-
