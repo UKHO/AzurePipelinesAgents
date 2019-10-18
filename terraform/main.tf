@@ -121,28 +121,3 @@ module "pool_agent4-ws2019-vs2019" {
   vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
-
-
-
-module "pool_agent5-ws2019-vs2019" {
-  source                                 = "./modules/azdo_ws2019agent"
-  VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
-  VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
-  VSTS_TOKEN                             = "${var.VSTS_TOKEN}"
-  ADMIN_USERNAME                         = "${var.ADMIN_USERNAME}"
-  ADMIN_PASSWORD                         = "${var.ADMIN_PASSWORD}"
-  ADMIN_SSHKEYPATH                       = "${var.ADMIN_SSHKEYPATH}"
-  ADMIN_SSHKEYDATA                       = "${var.ADMIN_SSHKEYDATA}"
-  AZURE_REGION                           = "${var.AZURE_REGION}"
-  AZURERM_RESOURCE_GROUP_MAIN_NAME       = "${azurerm_resource_group.main.name}"
-  AZURERM_RESOURCE_GROUP_MAIN_LOCATION   = "${azurerm_resource_group.main.location}"
-  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.data.name}"
-  AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.data.id}"
-  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${data.azurerm_network_security_group.data.id}"
-  VM                                     = "${element(var.SERVERNAMES, 4)}"
-  BRANCH                                 = "${var.BRANCH}"
-  TAGS                                   = "${var.TAGS}"
-  vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 4)}"
-  vm_size                                = "${var.VM_SIZE}"
-  run_date                               = "${var.RUN_DATE}"
-}
