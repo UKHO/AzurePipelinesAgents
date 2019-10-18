@@ -75,8 +75,9 @@ module "pool_agent2-ubuntu" {
   vm_size                                = "${var.VM_SIZE}"
   run_date                               = "${var.RUN_DATE}"
 }
-module "pool_agent3-ws2019-vs2019" {
-  source                                 = "./modules/azdo_ws2019agent"
+
+module "pool_agent3-ubuntu" {
+  source                                 = "./modules/azdo_ubuntuagent"
   VSTS_POOL_PREFIX                       = "${var.VSTS_POOL_PREFIX}"
   VSTS_ACCOUNT                           = "${var.VSTS_ACCOUNT}"
   VSTS_TOKEN                             = "${var.VSTS_TOKEN}"
@@ -90,7 +91,7 @@ module "pool_agent3-ws2019-vs2019" {
   AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.data.name}"
   AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.data.id}"
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${data.azurerm_network_security_group.data.id}"
-  VM                                     = "${element(var.SERVERNAMES, 2)}"  
+  VM                                     = "${element(var.SERVERNAMES, 2)}"
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
@@ -113,7 +114,7 @@ module "pool_agent4-ws2019-vs2019" {
   AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = "${data.azurerm_virtual_network.data.name}"
   AZURERM_SUBNET_ID                      = "${data.azurerm_subnet.data.id}"
   AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = "${data.azurerm_network_security_group.data.id}"
-  VM                                     = "${element(var.SERVERNAMES, 3)}"
+  VM                                     = "${element(var.SERVERNAMES, 3)}"  
   BRANCH                                 = "${var.BRANCH}"
   TAGS                                   = "${var.TAGS}"
   vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 3)}"
