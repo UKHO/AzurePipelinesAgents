@@ -9,8 +9,13 @@ $PoolNamePrefix,
 $ComputerName,
 $AdminAccount,
 $AdminPassword,
-$count = 1
+$count = 1,
+$PartitionSize = 128
 )
+
+$size = $PartionSize + "GB"
+
+Resize-Partition -DiskNumber 0 -PartitionNumer 2 -Size ($size)
 
 # Setup NVD
 New-Item C:\tools -ItemType Directory
