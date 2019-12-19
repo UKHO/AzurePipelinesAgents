@@ -1,3 +1,7 @@
+locals {
+  diskSize = 256
+}
+
 data "azurerm_shared_image_version" "existing" {
   name                = "0.157.1"
   gallery_name        = "UKHOSharedImageGallery"
@@ -7,41 +11,41 @@ data "azurerm_shared_image_version" "existing" {
 
 resource "azurerm_network_interface" "WSVM" {
   name                      = "${var.vm_name}-nic"
-  location                  = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
-  resource_group_name       = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
-  network_security_group_id = "${var.AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID}"
+  location                  = var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION
+  resource_group_name       = var.AZURERM_RESOURCE_GROUP_MAIN_NAME
+  network_security_group_id = var.AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID
 
   ip_configuration {
     name                          = "configuration"
-    subnet_id                     = "${var.AZURERM_SUBNET_ID}"
+    subnet_id                     = var.AZURERM_SUBNET_ID
     private_ip_address_allocation = "Dynamic"
   }
-  tags = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.run_date}" })}"
+  tags = merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "RUN_DATE" = "${var.run_date}" })
 }
 
 resource "azurerm_virtual_machine" "WSVM" {
-  name                             = "${var.vm_name}"
-  location                         = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
-  resource_group_name              = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
-  network_interface_ids            = ["${azurerm_network_interface.WSVM.id}"]
-  vm_size                          = "${var.vm_size}"
+  name                             = var.vm_name
+  location                         = var.AZURE_REGION
+  resource_group_name              = var.AZURERM_RESOURCE_GROUP_MAIN_NAME
+  network_interface_ids            = [azurerm_network_interface.WSVM.id]
+  vm_size                          = var.vm_size
   delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
 
   storage_image_reference {
-    id = "${data.azurerm_shared_image_version.existing.id}"
+    id = data.azurerm_shared_image_version.existing.id
   }
   storage_os_disk {
     name              = "${var.vm_name}-osdisk"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Premium_LRS"
-    disk_size_gb      = "256"
+    disk_size_gb      = local.diskSize
   }
   os_profile {
-    computer_name  = "${var.vm_name}"
-    admin_username = "${var.ADMIN_USERNAME}"
-    admin_password = "${var.ADMIN_PASSWORD}"
+    computer_name  = var.vm_name
+    admin_username = var.ADMIN_USERNAME
+    admin_password = var.ADMIN_PASSWORD
   }
 
   os_profile_windows_config {
@@ -55,14 +59,14 @@ resource "azurerm_virtual_machine" "WSVM" {
       content      = "<AutoLogon><Password><Value>${var.ADMIN_PASSWORD}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.ADMIN_USERNAME}</Username></AutoLogon>"
     }
   }
-  tags = "${merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "OS" = "ws2019", "RUN_DATE" = "${var.run_date}" })}"
+  tags = merge(var.TAGS, { "ACCOUNT" = "${var.VSTS_ACCOUNT}", "OS" = "ws2019", "RUN_DATE" = "${var.run_date}" })
 }
 
 resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentWindows" {
   name                 = "${var.vm_name}-TeamServicesAgentWindows"
-  location             = "${var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION}"
-  resource_group_name  = "${var.AZURERM_RESOURCE_GROUP_MAIN_NAME}"
-  virtual_machine_name = "${azurerm_virtual_machine.WSVM.name}"
+  location             = var.AZURE_REGION
+  resource_group_name  = var.AZURERM_RESOURCE_GROUP_MAIN_NAME
+  virtual_machine_name = azurerm_virtual_machine.WSVM.name
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"

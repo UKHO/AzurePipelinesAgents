@@ -1,51 +1,51 @@
 variable "AZURE_REGION" {
-  type = "string"
+  type = string
 }
 
 variable "VSTS_ACCOUNT" {
-  type = "string"
+  type = string
 }
 variable "VSTS_TOKEN" {
-  type = "string"
+  type = string
 }
 variable "VSTS_POOL_PREFIX" {
-  type = "string"
+  type = string
 }
 variable "ADMIN_USERNAME" {
-  type = "string"
+  type = string
 }
 variable "ADMIN_PASSWORD" {
-  type = "string"
+  type = string
 }
 
 variable "ADMIN_SSHKEYPATH" {
-  type = "string"
+  type = string
 }
 
 variable "ADMIN_SSHKEYDATA" {
-  type = "string"
+  type = string
 }
 
 variable "SERVERNAMES" {
-  type = "list"
+  type = list
 }
 
 variable "VM_SIZE" {
-  type = "string"
+  type = string
 }
 
 
 variable "BRANCH" {
-  type = "string"
+  type = string
   default = "master"
 }
 
 variable "TAGS" {
-  type="map"
+  type = map
 }
 
 variable "RUN_DATE" {
-  type="string"
+  type = string
 }
 
 variable "ENVIRONMENT" {
