@@ -9,8 +9,13 @@ $PoolNamePrefix,
 $ComputerName,
 $AdminAccount,
 $AdminPassword,
-$count = 1
+$count = 1,
+$PartitionSize = 128
 )
+
+$size = $PartionSize + "GB"
+
+Resize-Partition -DiskNumber 0 -PartitionNumer 2 -Size ($size)
 
 # Setup NVD
 New-Item C:\tools -ItemType Directory
@@ -91,3 +96,5 @@ for ($i = 1; $i -le $count; $i++) {
         
     .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolNamePrefix Windows 2019" --agent "$agentName" --runAsService --windowsLogonAccount "$AdminAccount" --windowsLogonPassword "$AdminPassword"
 }
+
+Restart-Computer
