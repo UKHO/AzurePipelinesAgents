@@ -41,6 +41,7 @@ steps:
       then
         terraform apply "tfplan"
       elif [$FORCE -eq "True"]
+      then
         terraform apply "tfplan"
       fi
   env:
