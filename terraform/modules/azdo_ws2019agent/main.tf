@@ -11,7 +11,7 @@ data "azurerm_shared_image_version" "existing" {
 
 resource "azurerm_network_interface" "WSVM" {
   name                      = "${var.vm_name}-nic"
-  location                  = var.AZURE_REGION
+  location                  = var.AZURERM_RESOURCE_GROUP_MAIN_LOCATION
   resource_group_name       = var.AZURERM_RESOURCE_GROUP_MAIN_NAME
   network_security_group_id = var.AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID
 
