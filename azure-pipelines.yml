@@ -23,12 +23,14 @@ steps:
       ACCOUNT="VSTS_ACCOUNT_$TF_VAR_ENVIRONMENT"
       TOKEN="VSTS_TOKEN_$TF_VAR_ENVIRONMENT"
 
-      export TF_VAR_VSTS_ACCOUNT="${!ACCOUNT}"
-      export TF_VAR_VSTS_TOKEN="${!TOKEN}"
+      export TF_VAR_AZDO_ACCOUNT="${!ACCOUNT}"
+      export TF_VAR_AZDO_TOKEN="${!TOKEN}"
       export TF_VAR_RUN_DATE=$(date +%F)
+      export TF_VAR_DEPLOYMENT_COLOUR="B"
 
       echo "$TF_VAR_ENVIRONMENT"
       echo "$TF_VAR_RUN_DATE"
+      echo "$TF_VAR_DEPLOYMENT_COLOUR"
 
       cd terraform/blue
       terraform init
