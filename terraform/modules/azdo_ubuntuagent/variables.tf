@@ -19,6 +19,9 @@ variable "ADMIN_SSHKEYPATH" {
 variable "ADMIN_SSHKEYDATA" {
   type = string
 }
+variable "ADMIN_USERNAME" {	
+  type = string	
+}
 variable "run_date" {
   type = string
 }
