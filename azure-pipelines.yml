@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger: 
   - master
 
@@ -17,7 +12,7 @@ variables:
 
 pool:
   vmImage: 'ubuntu-latest'
-container: ant59/terraform-azure-make:latest
+container: ukhydrographicoffice/terraform-azure-make:latest
 steps:
 - bash: terraform -v
   displayName: 'terraform version'
@@ -39,7 +34,6 @@ steps:
       cd terraform
       terraform init
       terraform plan -out=tfplan -input=false
-      terraform apply "tfplan"
   env:
     ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
     ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
@@ -51,11 +45,9 @@ steps:
     VSTS_ACCOUNT_PRD: $(VSTS-Account-PRD)
     VSTS_TOKEN_DEV: $(VSTS-Token-DEV)
     VSTS_TOKEN_PRD: $(VSTS-Token-PRD)
-    TF_VAR_SERVERNAMES: $(TF_VAR_SERVERNAMES)
     TF_VAR_ADMIN_USERNAME: $(VSTS-Admin-User)
     TF_VAR_ADMIN_PASSWORD: $(VSTS-Admin-Password)
     TF_VAR_ADMIN_SSHKEYPATH: $(VSTS-SshKeyPath)
     TF_VAR_ADMIN_SSHKEYDATA: $(VSTS-SshKeyData)
     TF_VAR_AZURE_REGION: $(AzureRegion)
-    TF_VAR_VSTS_POOL_PREFIX: $(PoolPrefix)
   displayName: 'initialise, plan and apply'

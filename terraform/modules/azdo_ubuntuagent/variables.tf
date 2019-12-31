@@ -1,73 +1,46 @@
-variable "AZURE_REGION" {
+variable "vm_name" {
+  type = string
+  description = "Name of the VM to be created. Must fulfill UKHO standards"
+}
+variable "vm_size" {
+  type = string 
+}
+variable "VM_RG_NAME"{
   type = string
 }
-
-variable "VSTS_ACCOUNT" {
-  type = string
+variable "VM_REGION" {
+  type        = string
+  default     = "uksouth"
+  description = "The Azure region for the VMs and other resources to be created"
 }
-variable "VSTS_TOKEN" {
-  type = string
-}
-variable "VSTS_POOL_PREFIX" {
-  type = string
-}
-variable "VM" {
-  type = string
-}
-variable "ADMIN_USERNAME" {
-  type = string
-}
-variable "ADMIN_PASSWORD" {
-  type = string
-}
-
 variable "ADMIN_SSHKEYPATH" {
   type = string
 }
-
 variable "ADMIN_SSHKEYDATA" {
   type = string
 }
-
-variable "AZURERM_RESOURCE_GROUP_MAIN_NAME" {
+variable "run_date" {
   type = string
 }
-
-variable "AZURERM_RESOURCE_GROUP_MAIN_LOCATION" {
+variable "SPOKE_NSG_ID" {
   type = string
 }
-
-variable "AZURERM_VIRTUAL_NETWORK_MAIN_NAME" {
+variable "SPOKE_SUBNET_ID" {
   type = string
 }
-
-variable "AZURERM_SUBNET_ID" {
+variable "AZDO_ORGANISATION"{
   type = string
 }
-
-variable "AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID" {
+variable "AZDO_TOKEN"{
   type = string
+}
+variable "AZDO_POOL_PREFIX"{
+  type = string
+  default = "UKHO"
 }
 variable "BRANCH" {
   type = string
 }
-variable "VSTS_AGENT_COUNT" {
-  type        = number
-  description = "The number of Azure DevOps agents to install on the VM"
-  default     = 2
-}
 variable "TAGS" {
   type = map
 }
-
-variable "vm_name" {
-}
-
-variable "vm_size" {
-  
-}
-
-
-variable "run_date" {  
-}
-
