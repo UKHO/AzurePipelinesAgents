@@ -28,7 +28,7 @@ locals {
 }
 
 resource "azurerm_resource_group" "vm-rg" {
-  name     = "m-${var.AZDO_ORGANISATION}-${var.ENVIRONMENT}-${local.run_date}-${upper(local.deployment_colour)}-rg"
+  name     = "m-${var.AZDO_ORGANISATION}-${var.ENVIRONMENT}-${upper(local.deployment_colour)}-${local.run_date}-rg"
   location = var.AZURE_REGION
   tags     = merge(var.TAGS, { "ACCOUNT" = "${var.AZDO_ORGANISATION}", "RUN_DATE" = "${local.run_date}" })
 }

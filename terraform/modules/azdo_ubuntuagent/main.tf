@@ -60,7 +60,7 @@ resource "azurerm_virtual_machine_extension" "VMTeamServicesAgentLinux" {
   protected_settings   = <<SETTINGS
     {
         "fileUris": ["https://raw.githubusercontent.com/UKHO/AzurePipelinesAgents/${var.BRANCH}/scripts/agentinstall.sh"],
-        "commandToExecute": "sh agentinstall.sh ${var.AZDO_ORGANISATION} ${var.AZDO_TOKEN} \"${var.AZDO_POOL_PREFIX}\" ${var.vm_name}-${var.run_date} 1"
+        "commandToExecute": "sh agentinstall.sh ${var.AZDO_ORGANISATION} ${var.AZDO_TOKEN} \"${var.AZDO_POOL_PREFIX}\" ${var.vm_name}-${var.run_date} 0"
     }
 SETTINGS
 }
