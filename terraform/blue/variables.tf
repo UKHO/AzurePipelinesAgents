@@ -18,8 +18,8 @@ variable "ADMIN_SSHKEYPATH" {
 variable "ADMIN_SSHKEYDATA" {
   type = string
 }
-variable "ADMIN_USERNAME" {	
-  type = string	
+variable "ADMIN_USERNAME" {
+  type = string
 }
 variable "VM_SIZE" {
   type        = string

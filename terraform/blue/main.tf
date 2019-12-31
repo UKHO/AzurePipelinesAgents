@@ -23,7 +23,7 @@ data "azurerm_network_security_group" "spoke-nsg" {
 }
 
 locals {
-  run_date = formatdate("YYYY-MM-DD", timestamp())
+  run_date          = formatdate("YYYY-MM-DD", timestamp())
   deployment_colour = "b"
 }
 
@@ -34,21 +34,21 @@ resource "azurerm_resource_group" "vm-rg" {
 }
 
 module "ubuntu_01" {
-    source                    = "../modules/azdo_ubuntuagent"
-    vm_name = "MAZDO${upper(var.ENVIRONMENT)}AGT01-${local.deployment_colour}"
-    vm_size = var.VM_SIZE
-    VM_RG_NAME = azurerm_resource_group.vm-rg.name
-    VM_REGION = var.AZURE_REGION
-    ADMIN_SSHKEYPATH          = var.ADMIN_SSHKEYPATH
-    ADMIN_SSHKEYDATA          = var.ADMIN_SSHKEYDATA
-    ADMIN_USERNAME = var.ADMIN_USERNAME
+  source           = "../modules/azdo_ubuntuagent"
+  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT01-${local.deployment_colour}"
+  vm_size          = var.VM_SIZE
+  VM_RG_NAME       = azurerm_resource_group.vm-rg.name
+  VM_REGION        = var.AZURE_REGION
+  ADMIN_SSHKEYPATH = var.ADMIN_SSHKEYPATH
+  ADMIN_SSHKEYDATA = var.ADMIN_SSHKEYDATA
+  ADMIN_USERNAME   = var.ADMIN_USERNAME
 
-    run_date = local.run_date
-    SPOKE_NSG_ID = data.azurerm_network_security_group.spoke-nsg.id
-    SPOKE_SUBNET_ID = data.azurerm_subnet.spoke-vnet-subnet.id
+  run_date        = local.run_date
+  SPOKE_NSG_ID    = data.azurerm_network_security_group.spoke-nsg.id
+  SPOKE_SUBNET_ID = data.azurerm_subnet.spoke-vnet-subnet.id
 
-    AZDO_ORGANISATION  = var.AZDO_ORGANISATION
-    AZDO_TOKEN         = var.AZDO_TOKEN
-    BRANCH                    = var.BRANCH
-    TAGS                      = var.TAGS
+  AZDO_ORGANISATION = var.AZDO_ORGANISATION
+  AZDO_TOKEN        = var.AZDO_TOKEN
+  BRANCH            = var.BRANCH
+  TAGS              = var.TAGS
 }
