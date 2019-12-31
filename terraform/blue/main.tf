@@ -41,6 +41,7 @@ module "ubuntu_01" {
     VM_REGION = var.AZURE_REGION
     ADMIN_SSHKEYPATH          = var.ADMIN_SSHKEYPATH
     ADMIN_SSHKEYDATA          = var.ADMIN_SSHKEYDATA
+    ADMIN_USERNAME = var.ADMIN_USERNAME
 
     run_date = local.run_date
     SPOKE_NSG_ID = data.azurerm_network_security_group.spoke-nsg.id
