@@ -30,7 +30,7 @@ steps:
       echo "$TF_VAR_ENVIRONMENT"
       echo "$TF_VAR_RUN_DATE"
 
-      cd terraform
+      cd terraform/blue
       terraform init
       terraform plan -out=tfplan -input=false
   env:
