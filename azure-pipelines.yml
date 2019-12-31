@@ -35,6 +35,7 @@ steps:
       cd terraform/blue
       terraform init
       terraform plan -out=tfplan -input=false
+      terraform apply "tfplan"
   env:
     ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
     ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
