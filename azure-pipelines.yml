@@ -10,8 +10,7 @@ variables:
   - name: PoolPrefix
     value: UKHO
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: UKHO Ubuntu 1804
 container: ukhydrographicoffice/terraform-azure-make:latest
 steps:
 - bash: terraform -v
