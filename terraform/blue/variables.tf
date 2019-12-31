@@ -1,7 +1,3 @@
-variable "DEPLOYMENT_COLOUR" {
-  type        = string
-  description = "Either (b)lue or (g)reen"
-}
 variable "AZURE_REGION" {
   type        = string
   default     = "uksouth"

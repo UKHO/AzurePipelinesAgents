@@ -24,17 +24,18 @@ data "azurerm_network_security_group" "spoke-nsg" {
 
 locals {
   run_date = formatdate("YYYY-MM-DD", timestamp())
+  deployment_colour = "b"
 }
 
 resource "azurerm_resource_group" "vm-rg" {
-  name     = "m-${var.AZDO_ORGANISATION}-${var.ENVIRONMENT}-${local.run_date}-${var.DEPLOYMENT_COLOUR}-rg"
+  name     = "m-${var.AZDO_ORGANISATION}-${var.ENVIRONMENT}-${local.run_date}-${local.deployment_colour}-rg"
   location = var.AZURE_REGION
   tags     = merge(var.TAGS, { "ACCOUNT" = "${var.AZDO_ORGANISATION}", "RUN_DATE" = "${local.run_date}" })
 }
 
 module "ubuntu_01" {
     source                    = "../modules/azdo_ubuntuagent"
-    vm_name = "MAZDO${upper(var.ENVIRONMENT)}AGT01"
+    vm_name = "MAZDO${upper(var.ENVIRONMENT)}AGT01-{local.deployment_colour}"
     vm_size = var.VM_SIZE
     VM_RG_NAME = azurerm_resource_group.vm-rg.name
     VM_REGION = var.AZURE_REGION
