@@ -34,7 +34,7 @@ resource "azurerm_resource_group" "vm-rg" {
 
 module "ubuntu_01" {
     source                    = "../modules/azdo_ubuntuagent"
-    vm_name = "MAZDO${upper(var.ENVIRONMENT)}AGT01}"
+    vm_name = "MAZDO${upper(var.ENVIRONMENT)}AGT01"
     vm_size = var.VM_SIZE
     VM_RG_NAME = azurerm_resource_group.vm-rg.name
     VM_REGION = var.AZURE_REGION
