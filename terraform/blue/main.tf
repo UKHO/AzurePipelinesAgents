@@ -28,14 +28,14 @@ locals {
 }
 
 resource "azurerm_resource_group" "vm-rg" {
-  name     = "m-${var.AZDO_ORGANISATION}-${var.ENVIRONMENT}-${local.run_date}-${local.deployment_colour}-rg"
+  name     = "m-${var.AZDO_ORGANISATION}-${var.ENVIRONMENT}-${local.run_date}-${upper(local.deployment_colour)}-rg"
   location = var.AZURE_REGION
   tags     = merge(var.TAGS, { "ACCOUNT" = "${var.AZDO_ORGANISATION}", "RUN_DATE" = "${local.run_date}" })
 }
 
 module "ubuntu_01" {
   source           = "../modules/azdo_ubuntuagent"
-  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT01-${local.deployment_colour}"
+  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT${upper(local.deployment_colour)}01"
   vm_size          = var.VM_SIZE
   VM_RG_NAME       = azurerm_resource_group.vm-rg.name
   VM_REGION        = var.AZURE_REGION
