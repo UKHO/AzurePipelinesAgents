@@ -34,7 +34,7 @@ resource "azurerm_resource_group" "vm-rg" {
 }
 
 module "ubuntu_01" {
-  source           = "../modules/azdo_ubuntuagent"
+  source           = "../modules/azdo_single_ubuntuagent"
   vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT${upper(local.deployment_colour)}01"
   vm_size          = var.VM_SIZE
   VM_RG_NAME       = azurerm_resource_group.vm-rg.name
@@ -54,7 +54,7 @@ module "ubuntu_01" {
 }
 
 module "ubuntu_02" {
-  source           = "../modules/azdo_ubuntuagent"
+  source           = "../modules/azdo_single_ubuntuagent"
   vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT${upper(local.deployment_colour)}02"
   vm_size          = var.VM_SIZE
   VM_RG_NAME       = azurerm_resource_group.vm-rg.name
