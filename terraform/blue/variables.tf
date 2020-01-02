@@ -23,7 +23,7 @@ variable "ADMIN_USERNAME" {
 }
 variable "VM_SIZE" {
   type        = string
-  default     = "Standard_F2s"
+  default     = "Standard_F4s"
   description = "String of the VM size from https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes"
 }
 variable "BRANCH" {
