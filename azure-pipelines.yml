@@ -23,15 +23,25 @@ steps:
       ACCOUNT="VSTS_ACCOUNT_$TF_VAR_ENVIRONMENT"
       TOKEN="VSTS_TOKEN_$TF_VAR_ENVIRONMENT"
 
-      export TF_VAR_AZDO_ACCOUNT="${!ACCOUNT}"
-      export TF_VAR_AZDO_TOKEN="${!TOKEN}"
+      export TF_VAR_VSTS_ACCOUNT="${!ACCOUNT}"
+      export TF_VAR_VSTS_TOKEN="${!TOKEN}"
+      export TF_VAR_RUN_DATE=$(date +%F)
 
       echo "$TF_VAR_ENVIRONMENT"
+      echo "$TF_VAR_RUN_DATE"
 
-      cd terraform/blue
+      cd terraform
       terraform init
       terraform plan -out=tfplan -input=false
       terraform apply "tfplan"
+
+      # The TF plan for blue deployment. Does not do an apply
+      export TF_VAR_AZDO_ACCOUNT="${!ACCOUNT}"
+      export TF_VAR_AZDO_TOKEN="${!TOKEN}"
+      cd terraform/blue
+      terraform init
+      terraform plan -input=false
+
   env:
     ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
     ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
@@ -43,9 +53,11 @@ steps:
     VSTS_ACCOUNT_PRD: $(VSTS-Account-PRD)
     VSTS_TOKEN_DEV: $(VSTS-Token-DEV)
     VSTS_TOKEN_PRD: $(VSTS-Token-PRD)
+    TF_VAR_SERVERNAMES: $(TF_VAR_SERVERNAMES)
     TF_VAR_ADMIN_USERNAME: $(VSTS-Admin-User)
     TF_VAR_ADMIN_PASSWORD: $(VSTS-Admin-Password)
     TF_VAR_ADMIN_SSHKEYPATH: $(VSTS-SshKeyPath)
     TF_VAR_ADMIN_SSHKEYDATA: $(VSTS-SshKeyData)
     TF_VAR_AZURE_REGION: $(AzureRegion)
+    TF_VAR_VSTS_POOL_PREFIX: $(PoolPrefix)
   displayName: 'initialise, plan and apply'
