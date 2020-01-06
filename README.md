@@ -32,42 +32,15 @@ module "pool_agent00-ubuntu" {
 
 for a ws2019 image use the `azdo_ws2019agent` agent
 
-Any  terraform variables can be defined as an environmental, but will need the prefix of `TF_VAR_`
+Any terraform variables can be defined as an environmental, but will need the prefix of `TF_VAR_` (for more on this go to terrform.io).
 
-you will also notice in the pipeline.yml that the plan step is being passed some `env:` values, these are secret values that are not available by default so need to be opted in.
-
-## secrets.auto.tfvars.enc
-
-Some secrets are encrypted and stored in the source code. the secret used is the access key found in the terraform vault for this project. these are decrypted and encypted using the `./secret` script.
-
-## initialise terraform using make
-
-- Install make, for windows, this is easily done with chocolatey `choco install make`
-  - Remember that make runs best from bash.
-
-- You will also need the access key stored as an environmental add a line to your .bash_profile to `export ARM_ACCESS_KEY="<fromVault>"`
-
-**N.B.** If you do not have access to make, you will still be able to run the standard `terraform` commmand.
-
-```shell
-make init
-```
-
-## test what it might do
-
-```shell
-make plan
-```
-
-## Apply changes
-
-```shell
-make apply
-```
+You will also notice in the pipeline.yml that the plan step is being passed some `env:` values, these are secret values that are not available by default so need to be opted in.
 
 ## What is missing
 
-you will need some extra variable if you are running local `.tfvars`.
+If running local you will need some extra variables in your `*.tfvars` file.
+
+An example of the vars needed are listed below (this is not exaustive or key up to date):
 
 ```shell
 BRANCH  = "master"
@@ -80,23 +53,4 @@ TAGS    = {
 }
 ```
 
-an example of the vars needed are listed below:
-
 **NOTE** this terraform is not used to build the VNET, as there are other systems pinning to that. So these are referenced as known data objects. To run this you will need to create a separate RG for you VNET and internal and then provide those details at the run time of this process.
-
-the secrets that are decrypted are for the following variables:
-
-```shell
-ADMIN_PASSWORD        = "<PASSWORD>"
-ADMIN_SSHKEYDATA      = "<SSHRSA>"
-VNET_NAME             = "<VNETNAME>"
-INTERNAL_NETWORK_NAME = "<SUBNETNAME>"
-VNET_RG               = "<RG>"
-AZURE_REGION          = "<REGION>"
-VSTS_POOL_PREFIX      = "TEST"
-VSTS_ACCOUNT          = "<VSTSAccount>"
-VSTS_TOKEN            = "<PATTOKEN>"
-ADMIN_USERNAME        = "agentagents"
-ADMIN_SSHKEYPATH      = "/home/agentagents/.ssh/authorized_keys"
-SERVERNAMES           = ["VM01", "VM02", "VM03", "VM04", "VM05", "VM06"]
-```
