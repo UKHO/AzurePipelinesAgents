@@ -54,3 +54,7 @@ TAGS    = {
 ```
 
 **NOTE** this terraform is not used to build the VNET, as there are other systems pinning to that. So these are referenced as known data objects. To run this you will need to create a separate RG for you VNET and internal and then provide those details at the run time of this process.
+
+## To release
+
+Whislt we are working out the process, we are finding that more often than not we are stopping the build. To run the build go to the Azure DevOps build and create a new build.
