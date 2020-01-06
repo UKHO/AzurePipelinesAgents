@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger: 
   - master
 
@@ -15,9 +10,8 @@ variables:
   - name: PoolPrefix
     value: UKHO
 
-pool:
-  vmImage: 'ubuntu-latest'
-container: ant59/terraform-azure-make:latest
+pool: UKHO Ubuntu 1804
+container: ukhydrographicoffice/terraform-azure-make:latest
 steps:
 - bash: terraform -v
   displayName: 'terraform version'
@@ -40,6 +34,14 @@ steps:
       terraform init
       terraform plan -out=tfplan -input=false
       terraform apply "tfplan"
+
+      # The TF plan for blue deployment. Does not do an apply
+      export TF_VAR_AZDO_ACCOUNT="${!ACCOUNT}"
+      export TF_VAR_AZDO_TOKEN="${!TOKEN}"
+      cd terraform/blue
+      terraform init
+      terraform plan -input=false
+
   env:
     ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
     ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
