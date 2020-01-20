@@ -8,18 +8,18 @@ data "azurerm_resource_group" "data" {
 
 data "azurerm_virtual_network" "spoke-vnet" {
   name                = "AzDoLive-vnet"
-  resource_group_name = "${data.azurerm_resource_group.spoke-rg.name}"
+  resource_group_name = data.azurerm_resource_group.spoke-rg.name
 }
 
 data "azurerm_subnet" "spoke-vnet-subnet" {
   name                 = "azdoagents-prd-subnet"
-  resource_group_name  = "${data.azurerm_resource_group.spoke-rg.name}"
-  virtual_network_name = "${data.azurerm_virtual_network.spoke-vnet.name}"
+  resource_group_name  = data.azurerm_resource_group.spoke-rg.name
+  virtual_network_name = data.azurerm_virtual_network.spoke-vnet.name
 }
 
 data "azurerm_network_security_group" "spoke-nsg" {
   name                = "AzDoLive-nsg"
-  resource_group_name = "${data.azurerm_resource_group.spoke-rg.name}"
+  resource_group_name = data.azurerm_resource_group.spoke-rg.name
 }
 
 resource "azurerm_resource_group" "main" {
