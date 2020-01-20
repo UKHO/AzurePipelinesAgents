@@ -101,9 +101,9 @@ module "pool_agent3-ws2019-vs2019" {
   run_date                               = local.run_date
 }
 
-module "ubuntu_01" {
+module "ubuntu_04" {
   source           = "./modules/azdo_single_ubuntuagent"
-  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT01"
+  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT04"
   vm_size          = var.VM_SIZE
   VM_RG_NAME       = azurerm_resource_group.vm-rg.name
   VM_REGION        = var.AZURE_REGION
@@ -121,9 +121,9 @@ module "ubuntu_01" {
   TAGS              = var.TAGS
 }
 
-module "ubuntu_02" {
+module "ubuntu_05" {
   source           = "./modules/azdo_single_ubuntuagent"
-  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT01"
+  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT05"
   vm_size          = var.VM_SIZE
   VM_RG_NAME       = azurerm_resource_group.vm-rg.name
   VM_REGION        = var.AZURE_REGION
