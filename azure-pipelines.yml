@@ -64,7 +64,7 @@ steps:
       terraform init
       terraform plan -out=tfplan -input=false
       terraform apply "tfplan"
-  condition: and(succeeded(), neq(variables['Build.Reason'], 'PullRequest'))
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   env:
     ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
     ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
