@@ -15,6 +15,7 @@ steps:
 - bash: |
     ACCOUNT="VSTS_ACCOUNT_$TF_VAR_ENVIRONMENT"
     TOKEN="VSTS_TOKEN_$TF_VAR_ENVIRONMENT"
+    
 
     export TF_VAR_VSTS_ACCOUNT="${!ACCOUNT}"
     export TF_VAR_VSTS_TOKEN="${!TOKEN}"
