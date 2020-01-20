@@ -1,7 +1,5 @@
 trigger: none
 
-pr: none
-
 variables:
   - group: agents-variables
   - name: AzureRegion
@@ -14,6 +12,39 @@ container: ukhydrographicoffice/terraform-azure-make:latest
 steps:
 - bash: terraform -v
   displayName: 'terraform version'
+- bash: |
+    ACCOUNT="VSTS_ACCOUNT_$TF_VAR_ENVIRONMENT"
+    TOKEN="VSTS_TOKEN_$TF_VAR_ENVIRONMENT"
+
+    export TF_VAR_VSTS_ACCOUNT="${!ACCOUNT}"
+    export TF_VAR_VSTS_TOKEN="${!TOKEN}"
+    export TF_VAR_RUN_DATE=$(date +%F)
+
+    echo "$TF_VAR_ENVIRONMENT"
+    echo "$TF_VAR_RUN_DATE"
+    
+    terraform init
+    terraform plan -input=false
+  workingDirectory: terraform
+  env:
+    ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
+    ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
+    ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
+    ARM_CLIENT_ID: $(TERRAFORM-CLIENT-ID)
+    ARM_CLIENT_SECRET: $(TERRAFORM-CLIENT-SECRET)
+    TF_VAR_BRANCH: $(Build.SourceBranchName)   
+    VSTS_ACCOUNT_DEV: $(VSTS-Account-DEV)
+    VSTS_ACCOUNT_PRD: $(VSTS-Account-PRD)
+    VSTS_TOKEN_DEV: $(VSTS-Token-DEV)
+    VSTS_TOKEN_PRD: $(VSTS-Token-PRD)
+    TF_VAR_SERVERNAMES: $(TF_VAR_SERVERNAMES)
+    TF_VAR_ADMIN_USERNAME: $(VSTS-Admin-User)
+    TF_VAR_ADMIN_PASSWORD: $(VSTS-Admin-Password)
+    TF_VAR_ADMIN_SSHKEYPATH: $(VSTS-SshKeyPath)
+    TF_VAR_ADMIN_SSHKEYDATA: $(VSTS-SshKeyData)
+    TF_VAR_AZURE_REGION: $(AzureRegion)
+    TF_VAR_VSTS_POOL_PREFIX: $(PoolPrefix)
+  displayName: 'initialise, plan and apply'
 - task: AzureCLI@1
   inputs:
     azureSubscription: 'AzDo Live'
@@ -33,14 +64,7 @@ steps:
       terraform init
       terraform plan -out=tfplan -input=false
       terraform apply "tfplan"
-
-      # The TF plan for blue deployment. Does not do an apply
-      export TF_VAR_AZDO_ACCOUNT="${!ACCOUNT}"
-      export TF_VAR_AZDO_TOKEN="${!TOKEN}"
-      cd terraform/blue
-      terraform init
-      terraform plan -input=false
-
+  condition: and(succeeded(), neq(variables['Build.Reason'], 'PullRequest'))
   env:
     ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
     ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
