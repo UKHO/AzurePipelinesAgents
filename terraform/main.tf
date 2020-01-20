@@ -11,7 +11,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 data "azurerm_resource_group" "data" {
-  name = "AzDoLive-RG"
+  name = "m-spokeconfig-RG"
 }
 
 data "azurerm_virtual_network" "data" {
