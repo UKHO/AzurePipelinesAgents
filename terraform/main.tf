@@ -2,8 +2,8 @@ terraform {
   required_version = "~> 0.12.5"
 }
 
-data "azurerm_resource_group" "spoke-rg" {
-  name = "AzDoLive-RG"
+data "azurerm_resource_group" "data" {
+  name = "m-spokeconfig-RG"
 }
 
 data "azurerm_virtual_network" "spoke-vnet" {
