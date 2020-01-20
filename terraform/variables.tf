@@ -36,7 +36,7 @@ variable "VM_SIZE" {
 
 
 variable "BRANCH" {
-  type = string
+  type    = string
   default = "master"
 }
 
