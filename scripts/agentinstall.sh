@@ -82,3 +82,38 @@ echo "start service for Agent $i on $4"
 ./svc.sh start
 done
 
+# Install .Net Core SDK
+wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+dpkg -i packages-microsoft-prod.deb
+
+add-apt-repository universe
+apt-get update
+apt-get install apt-transport-https
+apt-get update
+apt-get install dotnet-sdk-3.1
+
+# Download and extract azurevmagentservice
+servicepath=/usr/local/bin/azurevmagentdrainer
+mkdir -p $servicepath
+curl -L https://github.com/ukho/azdoagentdrainer/releases/latest/download/azurevmagentservice.tar.gz | tar zx -C $servicepath
+
+# Creat the service file
+cat > /etc/systemd/system/azurevmagentdrainer.service << EOF
+[Unit]
+Description=Azure Pipelines Agent Draienr
+
+[Service]
+Type=notify
+WorkingDirectory=$servicepath
+ExecStart=dotnet $servicepath/AzureVmAgentsService.dll --drainer:uri=https://dev.azure.com/$1 --drainer:pat=$2
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+
+# enable on restarts
+systemctl enable azurevmagentdrainer.service
+systemctl start azurevmagentdrainer.service
