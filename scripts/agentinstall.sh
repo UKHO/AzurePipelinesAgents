@@ -88,9 +88,9 @@ dpkg -i packages-microsoft-prod.deb
 
 add-apt-repository universe
 apt-get update
-apt-get install apt-transport-https
+apt-get install -y apt-transport-https
 apt-get update
-apt-get install dotnet-sdk-3.1
+apt-get install -y dotnet-sdk-3.1
 
 # Download and extract azurevmagentservice
 servicepath=/usr/local/bin/azurevmagentdrainer
