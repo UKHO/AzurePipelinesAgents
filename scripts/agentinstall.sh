@@ -105,7 +105,7 @@ Description=Azure Pipelines Agent Draienr
 [Service]
 Type=notify
 WorkingDirectory=$servicepath
-ExecStart=dotnet $servicepath/AzureVmAgentsService.dll --drainer:uri=https://dev.azure.com/$1 --drainer:pat=$2
+ExecStart=/usr/bin/dotnet $servicepath/AzureVmAgentsService.dll --drainer:uri=https://dev.azure.com/$1 --drainer:pat=$2
 Restart=always
 
 [Install]
