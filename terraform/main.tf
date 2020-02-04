@@ -55,8 +55,8 @@ module "pool_agent1-ubuntu" {
   run_date                               = local.run_date
 }
 
-module "pool_agent2-ubuntu" {
-  source                                 = "./modules/azdo_ubuntuagent"
+module "pool_agent2-ws2019-vs2019" {
+  source                                 = "./modules/azdo_ws2019agent"
   VSTS_POOL_PREFIX                       = var.VSTS_POOL_PREFIX
   VSTS_ACCOUNT                           = var.VSTS_ACCOUNT
   VSTS_TOKEN                             = var.VSTS_TOKEN
@@ -78,27 +78,24 @@ module "pool_agent2-ubuntu" {
   run_date                               = local.run_date
 }
 
-module "pool_agent3-ws2019-vs2019" {
-  source                                 = "./modules/azdo_ws2019agent"
-  VSTS_POOL_PREFIX                       = var.VSTS_POOL_PREFIX
-  VSTS_ACCOUNT                           = var.VSTS_ACCOUNT
-  VSTS_TOKEN                             = var.VSTS_TOKEN
-  ADMIN_USERNAME                         = var.ADMIN_USERNAME
-  ADMIN_PASSWORD                         = var.ADMIN_PASSWORD
-  ADMIN_SSHKEYPATH                       = var.ADMIN_SSHKEYPATH
-  ADMIN_SSHKEYDATA                       = var.ADMIN_SSHKEYDATA
-  AZURE_REGION                           = var.AZURE_REGION
-  AZURERM_RESOURCE_GROUP_MAIN_NAME       = azurerm_resource_group.vm-rg.name
-  AZURERM_RESOURCE_GROUP_MAIN_LOCATION   = azurerm_resource_group.vm-rg.location
-  AZURERM_VIRTUAL_NETWORK_MAIN_NAME      = data.azurerm_virtual_network.spoke-vnet.name
-  AZURERM_SUBNET_ID                      = data.azurerm_subnet.spoke-vnet-subnet.id
-  AZURERM_NETWORK_SECURITY_GROUP_MAIN_ID = data.azurerm_network_security_group.spoke-nsg.id
-  VM                                     = element(var.SERVERNAMES, 2)
-  BRANCH                                 = var.BRANCH
-  TAGS                                   = var.TAGS
-  vm_name                                = "MAZDO${upper(var.ENVIRONMENT)}${element(var.SERVERNAMES, 2)}"
-  vm_size                                = var.VM_SIZE
-  run_date                               = local.run_date
+module "ubuntu_03" {
+  source           = "./modules/azdo_single_ubuntuagent"
+  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT03"
+  vm_size          = var.VM_SIZE
+  VM_RG_NAME       = azurerm_resource_group.vm-rg.name
+  VM_REGION        = var.AZURE_REGION
+  ADMIN_SSHKEYPATH = var.ADMIN_SSHKEYPATH
+  ADMIN_SSHKEYDATA = var.ADMIN_SSHKEYDATA
+  ADMIN_USERNAME   = var.ADMIN_USERNAME
+
+  run_date        = local.run_date
+  SPOKE_NSG_ID    = data.azurerm_network_security_group.spoke-nsg.id
+  SPOKE_SUBNET_ID = data.azurerm_subnet.spoke-vnet-subnet.id
+
+  AZDO_ORGANISATION = var.VSTS_ACCOUNT
+  AZDO_TOKEN        = var.VSTS_TOKEN
+  BRANCH            = var.BRANCH
+  TAGS              = var.TAGS
 }
 
 module "ubuntu_04" {
@@ -124,6 +121,26 @@ module "ubuntu_04" {
 module "ubuntu_05" {
   source           = "./modules/azdo_single_ubuntuagent"
   vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT05"
+  vm_size          = var.VM_SIZE
+  VM_RG_NAME       = azurerm_resource_group.vm-rg.name
+  VM_REGION        = var.AZURE_REGION
+  ADMIN_SSHKEYPATH = var.ADMIN_SSHKEYPATH
+  ADMIN_SSHKEYDATA = var.ADMIN_SSHKEYDATA
+  ADMIN_USERNAME   = var.ADMIN_USERNAME
+
+  run_date        = local.run_date
+  SPOKE_NSG_ID    = data.azurerm_network_security_group.spoke-nsg.id
+  SPOKE_SUBNET_ID = data.azurerm_subnet.spoke-vnet-subnet.id
+
+  AZDO_ORGANISATION = var.VSTS_ACCOUNT
+  AZDO_TOKEN        = var.VSTS_TOKEN
+  BRANCH            = var.BRANCH
+  TAGS              = var.TAGS
+}
+
+module "ubuntu_06" {
+  source           = "./modules/azdo_single_ubuntuagent"
+  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT06"
   vm_size          = var.VM_SIZE
   VM_RG_NAME       = azurerm_resource_group.vm-rg.name
   VM_REGION        = var.AZURE_REGION
