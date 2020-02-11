@@ -137,23 +137,3 @@ module "ubuntu_05" {
   BRANCH            = var.BRANCH
   TAGS              = var.TAGS
 }
-
-module "ubuntu_06" {
-  source           = "./modules/azdo_single_ubuntuagent"
-  vm_name          = "MAZDO${upper(var.ENVIRONMENT)}AGT06"
-  vm_size          = var.VM_SIZE
-  VM_RG_NAME       = azurerm_resource_group.vm-rg.name
-  VM_REGION        = var.AZURE_REGION
-  ADMIN_SSHKEYPATH = var.ADMIN_SSHKEYPATH
-  ADMIN_SSHKEYDATA = var.ADMIN_SSHKEYDATA
-  ADMIN_USERNAME   = var.ADMIN_USERNAME
-
-  run_date        = local.run_date
-  SPOKE_NSG_ID    = data.azurerm_network_security_group.spoke-nsg.id
-  SPOKE_SUBNET_ID = data.azurerm_subnet.spoke-vnet-subnet.id
-
-  AZDO_ORGANISATION = var.VSTS_ACCOUNT
-  AZDO_TOKEN        = var.VSTS_TOKEN
-  BRANCH            = var.BRANCH
-  TAGS              = var.TAGS
-}
