@@ -31,7 +31,7 @@ cd $dir
 mkdir _work
 
 echo "download agent"
-curl https://vstsagentpackage.azureedge.net/agent/2.150.3/vsts-agent-linux-x64-2.150.3.tar.gz | tar zx
+curl https://vstsagentpackage.azureedge.net/agent/2.164.6/vsts-agent-linux-x64-2.164.6.tar.gz | tar zx
 
 echo "set permissions on agent directory"
 chmod 755 -R .
