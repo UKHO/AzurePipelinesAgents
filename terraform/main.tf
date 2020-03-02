@@ -2,6 +2,10 @@ terraform {
   required_version = "~> 0.12.5"
 }
 
+provider "azurerm" {
+  version = "=1.44.0"
+}
+
 data "azurerm_resource_group" "spoke-rg" {
   name = "m-spokeconfig-RG"
 }
